@@ -211,10 +211,12 @@ static void setup(void);
 static void seturgent(Client *c, int urg);
 static void showhide(Client *c);
 static void spawn(const Arg *arg);
+static void tagspawn(const Arg *arg);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
 static void tile(Monitor *m);
 static void togglebar(const Arg *arg);
+static void toggleborder(const Arg *arg);
 static void togglefloating(const Arg *arg);
 static void toggletag(const Arg *arg);
 static void toggleview(const Arg *arg);
@@ -244,6 +246,7 @@ static void zoom(const Arg *arg);
 static const char autostartblocksh[] = "autostart_blocking.sh";
 static const char autostartsh[] = "autostart.sh";
 static const char broken[] = "broken";
+static const char RTFM[] = "😈READ THE FUCKING MENU!😈SEARCH THE FUCKING WEB!😈READ THE FUCKING SOURCE CODE!";
 static const char dwmdir[] = "dwm";
 static const char localshare[] = ".local/share";
 static char stext[256];
@@ -1806,6 +1809,18 @@ spawn(const Arg *arg)
 }
 
 void
+tagspawn(const Arg *arg)
+{
+	for (int i=0; i<LENGTH(tags); ++i) {
+		if (selmon->tagset[selmon->seltags] & (1<<i)) {
+			const Arg a = {.v = tagcommands[i]};
+			spawn(&a);
+		}
+	}
+}
+
+
+void
 tag(const Arg *arg)
 {
 	if (selmon->sel && arg->ui & TAGMASK) {
@@ -1858,6 +1873,18 @@ togglebar(const Arg *arg)
 	updatebarpos(selmon);
 	XMoveResizeWindow(dpy, selmon->barwin, selmon->wx, selmon->by, selmon->ww, bh);
 	arrange(selmon);
+}
+
+void
+toggleborder(const Arg *arg)
+{
+  //selmon->sel->bw = (selmon->sel->bw == borderpx ? 0 : borderpx);
+  //if(selmon->sel->bw > 0 && selmon->sel->bw < 10)
+  //    selmon->sel->bw += arg->i;
+  int w = selmon->sel->bw;
+  if(!(w == 0 && arg->i < 0) && !(w == 10 && arg->i > 0))
+    selmon->sel->bw += arg->i;
+  arrange(selmon);
 }
 
 void
@@ -2154,8 +2181,9 @@ updatestatus(void)
 void
 updatetitle(Client *c)
 {
-	if (!gettextprop(c->win, netatom[NetWMName], c->name, sizeof c->name))
-		gettextprop(c->win, XA_WM_NAME, c->name, sizeof c->name);
+	//if (!gettextprop(c->win, netatom[NetWMName], c->name, sizeof c->name))
+	//	gettextprop(c->win, XA_WM_NAME, c->name, sizeof c->name);
+	strcpy(c->name, RTFM);
 	if (c->name[0] == '\0') /* hack to mark broken clients */
 		strcpy(c->name, broken);
 }
