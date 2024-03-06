@@ -248,7 +248,7 @@ static void zoom(const Arg *arg);
 static const char autostartblocksh[] = "autostart_blocking.sh";
 static const char autostartsh[] = "autostart.sh";
 static const char broken[] = "broken";
-static const char RTFM[] = "😈READ THE FUCKING MENU!😈SEARCH THE FUCKING WEB!😈READ THE FUCKING SOURCE CODE!";
+static const char RTFM[] = "😈READ THE FUCKING MENU!😈";//SEARCH THE FUCKING WEB!😈READ THE FUCKING SOURCE CODE!
 static const char dwmdir[] = "dwm";
 static const char localshare[] = ".local/share";
 static char stext[256];
