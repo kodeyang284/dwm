@@ -22,3 +22,4 @@ build.sh
 config.h
 !.gitignore
 .cache/**
+.clangd/**
