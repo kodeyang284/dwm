@@ -213,7 +213,6 @@ static void setup(void);
 static void seturgent(Client *c, int urg);
 static void showhide(Client *c);
 static void spawn(const Arg *arg);
-static void tagspawn(const Arg *arg);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
 static void tile(Monitor *m);
@@ -1804,18 +1803,6 @@ spawn(const Arg *arg)
 		die("dwm: execvp '%s' failed:", ((char **)arg->v)[0]);
 	}
 }
-
-void
-tagspawn(const Arg *arg)
-{
-	for (int i=0; i<LENGTH(tags); ++i) {
-		if (selmon->tagset[selmon->seltags] & (1<<i)) {
-			const Arg a = {.v = tagcommands[i]};
-			spawn(&a);
-		}
-	}
-}
-
 
 void
 tag(const Arg *arg)

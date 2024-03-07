@@ -39,7 +39,7 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-//	{ "firefox",  NULL,  "Firefox",       1 << 8,       1,           -1 },
+//	{ "firefox",  NULL,  "Firefox",       1 << 1,       1,           -1 },
 };
 
 /* layout(s) */
@@ -79,13 +79,6 @@ static const char *mute[]        = { "mute", NULL };
 static const char *lightup[]     = { "light", "-A","5", NULL };
 static const char *lightdown[]   = { "light", "-U","5", NULL };
 
-/* per tag commands for tagspawn function */
-static const char ** const tagcommands[LENGTH(tags)] = {
-	[0] = termcmd, /* first tag */
-	[1] = firefoxcmd,
-    [8] = musicfoxcmd,
-};
-
 static const char ** const startup_programs[] = { termcmd, };
     
 static const Key keys[] = {
@@ -99,7 +92,6 @@ static const Key keys[] = {
 	{ 0,          XF86XK_AudioMute,            spawn,          {.v = mute } },
 	{ 0,          XF86XK_MonBrightnessUp,      spawn,          {.v = lightup } },
 	{ 0,          XF86XK_MonBrightnessDown,    spawn,          {.v = lightdown } },
-	{ MODKEY,                       XK_r,      tagspawn,       {0} },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
     { MODKEY|ShiftMask,             XK_b,      toggleborder,   {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
