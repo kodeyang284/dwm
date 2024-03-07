@@ -243,6 +243,7 @@ static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void xinitvisual();
 static void zoom(const Arg *arg);
+static void spawnprograms();
 
 /* variables */
 static const char autostartblocksh[] = "autostart_blocking.sh";
@@ -2342,6 +2343,17 @@ zoom(const Arg *arg)
 	pop(c);
 }
 
+void
+spawnprograms()
+{
+    /* iterate through startup_programs and spawn each program */
+    for(int i = 0; i < sizeof(startup_programs) / sizeof(char **); i++)
+    {
+        Arg prog = {.v = startup_programs[i]};
+        spawn(&prog);
+    }
+}
+
 int
 main(int argc, char *argv[])
 {
@@ -2361,6 +2373,7 @@ main(int argc, char *argv[])
 #endif /* __OpenBSD__ */
 	scan();
 	runautostart();
+    spawnprograms();
 	run();
 	cleanup();
 	XCloseDisplay(dpy);

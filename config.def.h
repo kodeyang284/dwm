@@ -86,6 +86,8 @@ static const char ** const tagcommands[LENGTH(tags)] = {
     [8] = musicfoxcmd,
 };
 
+static const char ** const startup_programs[] = { termcmd, };
+    
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
