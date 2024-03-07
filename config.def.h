@@ -39,7 +39,7 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+//	{ "firefox",  NULL,  "Firefox",       1 << 8,       1,           -1 },
 };
 
 /* layout(s) */
@@ -51,7 +51,7 @@ static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen win
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "",      tile },    /* first entry is default */
-  { "󰛾",      monocle },
+    { "󰛾",      monocle },
 	{ "",      NULL },    /* no layout function means floating behavior */
 };
 
@@ -83,7 +83,7 @@ static const char *lightdown[]   = { "light", "-U","5", NULL };
 static const char ** const tagcommands[LENGTH(tags)] = {
 	[0] = termcmd, /* first tag */
 	[1] = firefoxcmd,
-  [8] = musicfoxcmd,
+    [8] = musicfoxcmd,
 };
 
 static const Key keys[] = {
@@ -95,21 +95,22 @@ static const Key keys[] = {
 	{ 0,          XF86XK_AudioLowerVolume,     spawn,          {.v = downvol } },
 	{ 0,          XF86XK_AudioRaiseVolume,     spawn,          {.v = upvol } },
 	{ 0,          XF86XK_AudioMute,            spawn,          {.v = mute } },
-	{ 0,          XF86XK_MonBrightnessUp ,     spawn,          {.v = lightup } },
-	{ 0,          XF86XK_MonBrightnessDown ,   spawn,          {.v = lightdown } },
+	{ 0,          XF86XK_MonBrightnessUp,      spawn,          {.v = lightup } },
+	{ 0,          XF86XK_MonBrightnessDown,    spawn,          {.v = lightdown } },
 	{ MODKEY,                       XK_r,      tagspawn,       {0} },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
-  { MODKEY|ShiftMask,             XK_b,      toggleborder,   {0} },
+    { MODKEY|ShiftMask,             XK_b,      toggleborder,   {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
+	{ SUPER,                        XK_Tab,    focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
-	//{ SUPER ,                       XK_Return, zoom,           {0} },
+	{ SUPER ,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
-	//{ SUPER ,                       XK_q,      killclient,     {0} },
+	{ SUPER ,                       XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },

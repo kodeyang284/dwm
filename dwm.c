@@ -1098,6 +1098,10 @@ manage(Window w, XWindowAttributes *wa)
 	updatewindowtype(c);
 	updatesizehints(c);
 	updatewmhints(c);
+	//if (c->isfloating)  center it if is floating 
+    c->x = c->mon->mx + (c->mon->mw - WIDTH(c)) / 2;
+    c->y = c->mon->my + (c->mon->mh - HEIGHT(c)) / 2;
+
 	XSelectInput(dpy, w, EnterWindowMask|FocusChangeMask|PropertyChangeMask|StructureNotifyMask);
 	grabbuttons(c, 0);
 	if (!c->isfloating)
@@ -2173,9 +2177,9 @@ updatestatus(void)
 void
 updatetitle(Client *c)
 {
-	//if (!gettextprop(c->win, netatom[NetWMName], c->name, sizeof c->name))
-	//	gettextprop(c->win, XA_WM_NAME, c->name, sizeof c->name);
-	strcpy(c->name, RTFM);
+	if (!gettextprop(c->win, netatom[NetWMName], c->name, sizeof c->name))
+		gettextprop(c->win, XA_WM_NAME, c->name, sizeof c->name);
+	//strcpy(c->name, RTFM);
 	if (c->name[0] == '\0') /* hack to mark broken clients */
 		strcpy(c->name, broken);
 }

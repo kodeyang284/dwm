@@ -8,10 +8,11 @@
 !LICENSE
 !dwm.1
 !dwm.png
+tmp/**
 *.json
 *.o
 .*
-.**
+.*/**
 _*
 *~
 *.rej
