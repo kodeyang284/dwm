@@ -8,6 +8,7 @@
 !LICENSE
 !dwm.1
 !dwm.png
+!autostart.sh
 tmp/**
 *.json
 *.o

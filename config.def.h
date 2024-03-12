@@ -64,14 +64,16 @@ static const Layout layouts[] = {
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
-#define SHCMD(cmd) { "bash", "-c", cmd, NULL }
+#define SHCMD(cmd)  { "bash", "-c", cmd, NULL }
 #define VOLCTL(cmd) { "pactl", "set-sink-volume", "@DEFAULT_SINK@",cmd, NULL}
-#define MUTE { "pactl", "set-sink-mute", "@DEFAULT_SINK@","toggle", NULL}
+#define MUTE        { "pactl", "set-sink-mute", "@DEFAULT_SINK@","toggle", NULL}
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[]    = { "rofi", "-show", "drun", "-show-icons", NULL };
 static const char *termcmd[]     = { "alacritty", NULL };
+static const char scratchpadname[] = "scratchpad";
+static const char *scratchpadcmd[] = { "alacritty", "-T", scratchpadname, NULL };
 static const char *firefoxcmd[]  = { "firefox", NULL };
 static const char *musicfoxcmd[] = { "alacritty","-e", "musicfox", NULL };
 static const char *upvol[]       = VOLCTL("+1000");
@@ -86,6 +88,7 @@ static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
 	{ MODKEY,                       XK_w,      spawn,          {.v = firefoxcmd } },
 	{ MODKEY,                       XK_e,      spawn,          {.v = musicfoxcmd } },
 	{ 0,          XF86XK_AudioLowerVolume,     spawn,          {.v = downvol } },

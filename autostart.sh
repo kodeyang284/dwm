@@ -1,0 +1,9 @@
+#!/bin/bash
+
+WALL_PAPER=~/Pictures/Wallpaper/banner.png
+
+dwmstatus 2>&1 > /dev/null &
+fcitx5 &
+picom &
+togglemon
+feh --bg-scale $WALL_PAPER &
