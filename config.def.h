@@ -2,14 +2,13 @@
 #include <X11/XF86keysym.h>
 
 /* appearance */
-static const unsigned int borderpx  = 0;        /* border pixel of windows */
+static const unsigned int borderpx  = 6;        /* border pixel of windows */
 static const unsigned int gappx     = 20;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "FiraCode Nerd Font:size=15:antialias=true:autohint=true",
-                                        "Noto Sans Mono:size=15:antialias=true:autohint=true" };
-static const char dmenufont[]       = "FiraCode Nerd Font:size=14:antialias=true:autohint=true";
+static const char *fonts[]          = { "monospace:size=15:antialias=true:autohint=true" };
+static const char dmenufont[]       = "monospace:size=14:antialias=true:autohint=true";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#fcfbf4";
@@ -51,7 +50,7 @@ static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen win
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "",      tile },    /* first entry is default */
-    { "󰛾",      monocle },
+  { "󰛾",      monocle },
 	{ "",      NULL },    /* no layout function means floating behavior */
 };
 
@@ -66,6 +65,8 @@ static const Layout layouts[] = {
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { "bash", "-c", cmd, NULL }
+#define VOLCTL(cmd) { "pactl", "set-sink-volume", "@DEFAULT_SINK@",cmd, NULL}
+#define MUTE { "pactl", "set-sink-mute", "@DEFAULT_SINK@","toggle", NULL}
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
@@ -73,9 +74,9 @@ static const char *dmenucmd[]    = { "rofi", "-show", "drun", "-show-icons", NUL
 static const char *termcmd[]     = { "alacritty", NULL };
 static const char *firefoxcmd[]  = { "firefox", NULL };
 static const char *musicfoxcmd[] = { "alacritty","-e", "musicfox", NULL };
-static const char *upvol[]       = { "upvol", NULL };
-static const char *downvol[]     = { "downvol", NULL };
-static const char *mute[]        = { "mute", NULL };
+static const char *upvol[]       = VOLCTL("+1000");
+static const char *downvol[]     = VOLCTL("-1000");
+static const char *mute[]        = MUTE;
 static const char *lightup[]     = { "light", "-A","5", NULL };
 static const char *lightdown[]   = { "light", "-U","5", NULL };
 
@@ -93,7 +94,7 @@ static const Key keys[] = {
 	{ 0,          XF86XK_MonBrightnessUp,      spawn,          {.v = lightup } },
 	{ 0,          XF86XK_MonBrightnessDown,    spawn,          {.v = lightdown } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
-    { MODKEY|ShiftMask,             XK_b,      toggleborder,   {0} },
+  { MODKEY|ShiftMask,             XK_b,      toggleborder,   {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ SUPER,                        XK_Tab,    focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
