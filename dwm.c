@@ -1905,7 +1905,8 @@ togglebar(const Arg *arg)
 void
 toggleborder(const Arg *arg)
 {
-  selmon->sel->bw = (selmon->sel->bw == borderpx ? 0 : borderpx);
+  if(selmon->sel != NULL)
+    selmon->sel->bw = (selmon->sel->bw == borderpx ? 0 : borderpx);
   //if(selmon->sel->bw > 0 && selmon->sel->bw < 10)
   //    selmon->sel->bw += arg->i;
   //int w = selmon->sel->bw;
