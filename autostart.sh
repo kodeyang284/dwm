@@ -2,7 +2,7 @@
 
 WALL_PAPER=~/Pictures/Wallpaper/banner.png
 
-dwmstatus 2>&1 > /dev/null &
+dwmblocks 2>&1 > /dev/null &
 fcitx5 &
 picom &
 togglemon
