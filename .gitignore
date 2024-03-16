@@ -9,6 +9,7 @@
 !dwm.1
 !dwm.png
 !autostart.sh
+git.diff
 tmp/**
 *.json
 *.o
