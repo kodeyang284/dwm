@@ -1,9 +1,8 @@
 #!/bin/bash
 
-WALL_PAPER=~/Pictures/Wallpaper/banner.png
-
 dwmblocks 2>&1 > /dev/null &
 fcitx5 &
 picom &
+sleep 2
 togglemon
-feh --bg-scale $WALL_PAPER &
+xset r rate 250 100
