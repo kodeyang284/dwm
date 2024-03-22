@@ -13,6 +13,7 @@ git.diff
 tmp/**
 *.json
 *.o
+*.obj
 .*
 .*/**
 _*

@@ -72,24 +72,26 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[]    = { "rofi", "-show", "drun", "-show-icons", NULL };
-static const char *termcmd[]     = { "alacritty", NULL };
+static const char *termcmd1[]    = { "alacritty", NULL };
+static const char *termcmd[]     = { "alacritty", "msg", "create-window", NULL };
 static const char *togglemonitor[] = { "togglemon", NULL };
 static const char scratchpadname[] = "scratchpad";
-static const char *scratchpadcmd[] = { "alacritty", "-T", scratchpadname, NULL };
+static const char *scratchpadcmd[] = { "alacritty", "msg", "create-window", "-T", scratchpadname, NULL };
 static const char *firefoxcmd[]  = { "chromium", NULL };
-static const char *musicfoxcmd[] = { "alacritty","-e", "musicfox", NULL };
+static const char *musicfoxcmd[] = { "alacritty", "msg", "create-window", "-e", "musicfox", NULL };
 static const char *upvol[]       = VOLCTL("+1000");
 static const char *downvol[]     = VOLCTL("-1000");
 static const char *mute[]        = MUTE;
 static const char *lightup[]     = { "light", "-A","5", NULL };
 static const char *lightdown[]   = { "light", "-U","5", NULL };
 
-static const char ** const startup_programs[] = { NULL };
+static const char ** const startup_programs[] = { termcmd1 };
     
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd1 } },
 	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
 	{ MODKEY,                       XK_w,      spawn,          {.v = firefoxcmd } },
 	{ MODKEY,                       XK_e,      spawn,          {.v = musicfoxcmd } },
@@ -108,7 +110,6 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-	{ MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
 	{ SUPER ,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ SUPER ,                       XK_q,      killclient,     {0} },
