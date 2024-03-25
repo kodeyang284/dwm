@@ -71,19 +71,20 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[]    = { "rofi", "-show", "drun", "-show-icons", NULL };
-static const char *termcmd1[]    = { "alacritty", NULL };
-static const char *termcmd[]     = { "alacritty", "msg", "create-window", NULL };
+//static const char *dmenucmd[]      = { "rofi", "-show", "drun", "-show-icons", NULL };
+static const char *dmenucmd[]      = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, NULL };
+static const char *termcmd1[]      = { "alacritty", NULL };
+static const char *termcmd[]       = { "alacritty", "msg", "create-window", NULL };
 static const char *togglemonitor[] = { "togglemon", NULL };
 static const char scratchpadname[] = "scratchpad";
 static const char *scratchpadcmd[] = { "alacritty", "msg", "create-window", "-T", scratchpadname, NULL };
-static const char *firefoxcmd[]  = { "firefox", NULL };
-static const char *musicfoxcmd[] = { "alacritty", "msg", "create-window", "-e", "musicfox", NULL };
-static const char *upvol[]       = VOLCTL("+1000");
-static const char *downvol[]     = VOLCTL("-1000");
-static const char *mute[]        = MUTE;
-static const char *lightup[]     = { "light", "-A","5", NULL };
-static const char *lightdown[]   = { "light", "-U","5", NULL };
+static const char *firefoxcmd[]    = { "firefox", NULL };
+static const char *musicfoxcmd[]   = { "alacritty", "msg", "create-window", "-e", "musicfox", NULL };
+static const char *upvol[]         = VOLCTL("+1000");
+static const char *downvol[]       = VOLCTL("-1000");
+static const char *mute[]          = MUTE;
+static const char *lightup[]       = { "light", "-A","5", NULL };
+static const char *lightdown[]     = { "light", "-U","5", NULL };
 
 static const char ** const startup_programs[] = { termcmd1 };
     
