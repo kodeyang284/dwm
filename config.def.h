@@ -71,8 +71,8 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-//static const char *dmenucmd[]      = { "rofi", "-show", "drun", "-show-icons", NULL };
-static const char *dmenucmd[]      = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, NULL };
+static const char *dmenucmd[]      = { "rofi", "-show", "drun", "-show-icons", NULL };
+static const char *runcmd[]        = { "rofi", "-show", "run", "-show-icons", NULL };
 static const char *termcmd1[]      = { "alacritty", NULL };
 static const char *termcmd[]       = { "alacritty", "msg", "create-window", NULL };
 static const char *togglemonitor[] = { "togglemon", NULL };
@@ -86,11 +86,12 @@ static const char *mute[]          = MUTE;
 static const char *lightup[]       = { "light", "-A","5", NULL };
 static const char *lightdown[]     = { "light", "-U","5", NULL };
 
-static const char ** const startup_programs[] = { termcmd1 };
+static const char ** const startup_programs[] = { NULL };
     
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_o,      spawn,          {.v = runcmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd1 } },
 	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },

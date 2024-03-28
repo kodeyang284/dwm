@@ -2530,10 +2530,13 @@ void
 spawnprograms(void)
 {
   /* iterate through startup_programs and spawn each program */
+  Arg prog = { .v = NULL };
   for(int i = 0; i < sizeof(startup_programs) / sizeof(char **); i++)
   {
-    Arg prog = {.v = startup_programs[i]};
-    spawn(&prog);
+    if (startup_programs[i]) {
+      prog.v = startup_programs[i];
+      spawn(&prog);
+    }
   }
 }
 
