@@ -68,18 +68,19 @@ static const Layout layouts[] = {
 #define SHCMD(cmd)  { "bash", "-c", cmd, NULL }
 #define VOLCTL(cmd) { "pactl", "set-sink-volume", "@DEFAULT_SINK@",cmd, NULL}
 #define MUTE        { "pactl", "set-sink-mute", "@DEFAULT_SINK@","toggle", NULL}
+#define __TERMINAL  "alacritty", "msg", "create-window"
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[]      = { "rofi", "-show", "drun", "-show-icons", NULL };
 static const char *runcmd[]        = { "rofi", "-show", "run", "-show-icons", NULL };
 static const char *termcmd1[]      = { "alacritty", NULL };
-static const char *termcmd[]       = { "alacritty", "msg", "create-window", NULL };
+static const char *termcmd[]       = { __TERMINAL, NULL };
 static const char *togglemonitor[] = { "togglemon", NULL };
 static const char scratchpadname[] = "scratchpad";
-static const char *scratchpadcmd[] = { "alacritty", "msg", "create-window", "-T", scratchpadname, NULL };
+static const char *scratchpadcmd[] = { __TERMINAL, "-T", scratchpadname, NULL };
 static const char *firefoxcmd[]    = { "firefox", NULL };
-static const char *musicfoxcmd[]   = { "alacritty", "msg", "create-window", "-e", "musicfox", NULL };
+static const char *musicfoxcmd[]   = { __TERMINAL, "-e", "musicfox", NULL };
 static const char *upvol[]         = VOLCTL("+1000");
 static const char *downvol[]       = VOLCTL("-1000");
 static const char *mute[]          = MUTE;
@@ -112,9 +113,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-	{ SUPER ,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
-	{ SUPER ,                       XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
