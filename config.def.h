@@ -37,10 +37,10 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     iscentered   isfloating   monitor    float x,y,w,h         floatborderpx*/
-	{ "Gimp",     NULL,       NULL,       0,            0,           1,           -1,        50,50,500,500,        5 },
-	{ "firefox",  NULL,  "Firefox",       1 << 1,       1,           0,           -1,        -1,-1,-1,-1,          -1 },
-	{ NULL,       NULL,  "musicfox",      1 << 7,       0,           1,           -1,        50,50,800,600,        -1 },           
+	/* class      instance    title            tags mask     iscentered   isfloating   monitor    float x,y,w,h         floatborderpx    scratch key*/
+	{ "Gimp",     NULL,       NULL,            0,            0,           1,           -1,        50,50,500,500,        5,               0  },
+	{ "firefox",  NULL,       "Firefox",       1 << 1,       1,           0,           -1,        -1,-1,-1,-1,         -1,               0  },
+	{ NULL,       NULL,       "scratchpad",    0,            0,           1,           -1,        50,50,800,600,       -1,              's' },           
 };
 
 /* layout(s) */
@@ -86,6 +86,9 @@ static const char *mute[]          = MUTE;
 static const char *lightup[]       = { "light", "-A","5", NULL };
 static const char *lightdown[]     = { "light", "-U","5", NULL };
 
+/*First arg only serves to match against key in rules*/
+static const char *scratchpadcmd[] = {"s", __TERMINAL, "-T", "scratchpad", NULL };
+
 static const char ** const startup_programs[] = { NULL };
     
 static const Key keys[] = {
@@ -94,6 +97,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_o,      spawn,          {.v = runcmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd1 } },
+	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
 	{ MODKEY,                       XK_w,      spawn,          {.v = firefoxcmd } },
 	{ MODKEY,                       XK_e,      spawn,          {.v = musicfoxcmd } },
   { MODKEY|ShiftMask,             XK_m,      spawn,          {.v = togglemonitor} },
