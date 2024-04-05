@@ -37,10 +37,10 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor    float x,y,w,h         floatborderpx*/
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1,        50,50,500,500,        5 },
-	{ "firefox",  NULL,  "Firefox",       1 << 1,       0,           -1,        50,50,500,500,        5 },
-	{ NULL,       NULL,  "musicfox",      1 << 7,       1,           -1,        50,50,800,600,        -1 },           
+	/* class      instance    title       tags mask     iscentered   isfloating   monitor    float x,y,w,h         floatborderpx*/
+	{ "Gimp",     NULL,       NULL,       0,            0,           1,           -1,        50,50,500,500,        5 },
+	{ "firefox",  NULL,  "Firefox",       1 << 1,       1,           0,           -1,        -1,-1,-1,-1,          -1 },
+	{ NULL,       NULL,  "musicfox",      1 << 7,       0,           1,           -1,        50,50,800,600,        -1 },           
 };
 
 /* layout(s) */
@@ -78,8 +78,6 @@ static const char *runcmd[]        = { "rofi", "-show", "run", "-show-icons", NU
 static const char *termcmd1[]      = { "alacritty", NULL };
 static const char *termcmd[]       = { __TERMINAL, NULL };
 static const char *togglemonitor[] = { "togglemon", NULL };
-static const char scratchpadname[] = "scratchpad";
-static const char *scratchpadcmd[] = { __TERMINAL, "-T", scratchpadname, NULL };
 static const char *firefoxcmd[]    = { "firefox", NULL };
 static const char *musicfoxcmd[]   = { __TERMINAL, "-T", "musicfox",  "-e", "musicfox", NULL };
 static const char *upvol[]         = VOLCTL("+1000");
@@ -96,7 +94,6 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_o,      spawn,          {.v = runcmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd1 } },
-	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
 	{ MODKEY,                       XK_w,      spawn,          {.v = firefoxcmd } },
 	{ MODKEY,                       XK_e,      spawn,          {.v = musicfoxcmd } },
   { MODKEY|ShiftMask,             XK_m,      spawn,          {.v = togglemonitor} },
