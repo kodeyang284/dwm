@@ -43,6 +43,7 @@ static const Rule rules[] = {
 	{ "Alacritty",   NULL,          NULL,           0,          1,           0,           -1,       -1,            -1,-1,-1,-1,         -1,               0  },
 	{ "scratchpad",  "scratchpad",  "scratchpad",   0,          1,           1,           -1,       -1,            -1,-1,1280,960,      -1,              's' },
 	{ "musicfox",    "musicfox",    "musicfox",     0,          0,           1,           -1,       0,             1080,200,1280,960,   -1,              'm' },
+	{ "Dunst",       "Dunst",       NULL,           0,          0,           1,           -1,       0,             -1,-1,-1,-1,         -1,               0 },
 };
 
 /* layout(s) */
@@ -80,8 +81,7 @@ static const char *runcmd[]        = { "rofi", "-show", "run", "-show-icons", NU
 static const char *termcmd[]       = { __TERMINAL, NULL };
 
 /*First arg only serves to match against key in rules*/
-//static const char *scratchpadcmd[] = { "s", __TERMINAL, "--class", "scratchpad", "-T", "scratchpad", NULL };
-static const char *scratchpadcmd[] = SCRATCHAPP("s", "scratchpad", "tmux");
+static const char *scratchpadcmd[] = { "s", __TERMINAL, "--class", "scratchpad", "-T", "scratchpad", NULL };
 static const char *musicfoxcmd[]   = SCRATCHAPP("m", "musicfox", "musicfox");
 
 static const char ** const startup_programs[] = { NULL };
@@ -107,7 +107,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY|ShiftMask,             XK_f,      fullscreen,     {0} },
+	{ MODKEY|ShiftMask,             XK_f,      togglefullscreen, {0} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },

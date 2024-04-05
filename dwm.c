@@ -217,7 +217,7 @@ static void setclientstate(Client *c, long state);
 static void setfocus(Client *c);
 static void setfullscreen(Client *c, int fullscreen);
 static void setgaps(const Arg *arg);
-static void fullscreen(const Arg *arg);
+static void togglefullscreen(const Arg *arg);
 static void setlayout(const Arg *arg);
 static void setmfact(const Arg *arg);
 static void setup(void);
@@ -1765,8 +1765,9 @@ setfullscreen(Client *c, int fullscreen)
  *without many issue to check.
 */
 void
-fullscreen(const Arg *arg)
+togglefullscreen(const Arg *arg)
 {
+  /* This actrally is a fake fullscreen method
   const Layout *lo = selmon->lt[selmon->sellt];
 
   if(lo == NULL)
@@ -1778,6 +1779,11 @@ fullscreen(const Arg *arg)
 		setlayout(&((Arg) { .v = &layouts[0] }));
   toggleborder(NULL);
   togglebar(arg);
+  */
+
+  /* actual fullscreen use builting setfullscreen functiojn */
+  if(selmon->sel)
+    setfullscreen(selmon->sel, !selmon->sel->isfullscreen);
 }
 
 void
