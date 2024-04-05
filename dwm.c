@@ -148,6 +148,7 @@ typedef struct {
 	int iscentered;
 	int isfloating;
 	int monitor;
+  int bw;
 	int floatx, floaty, floatw, floath;
 	int floatborderpx;
 	const char scratchkey;
@@ -332,6 +333,7 @@ applyrules(Client *c)
 	c->isfloating = 0;
 	c->tags = 0;
 	c->scratchkey = 0;
+  c->bw = borderpx;
 	XGetClassHint(dpy, c->win, &ch);
 	class    = ch.res_class ? ch.res_class : broken;
 	instance = ch.res_name  ? ch.res_name  : broken;
@@ -346,6 +348,8 @@ applyrules(Client *c)
 			c->isfloating = r->isfloating;
 			c->scratchkey = r->scratchkey;
 			c->tags |= r->tags;
+      if(r->bw != -1)
+        c->bw = r->bw;
 			if (r->floatborderpx >= 0) {
 				c->floatborderpx = r->floatborderpx;
 				c->hasfloatbw = 1;
@@ -1155,7 +1159,6 @@ manage(Window w, XWindowAttributes *wa)
 		c->y = c->mon->wy + c->mon->wh - HEIGHT(c);
 	c->x = MAX(c->x, c->mon->wx);
 	c->y = MAX(c->y, c->mon->wy);
-	c->bw = borderpx;
 
 	wc.border_width = c->bw;
 	XConfigureWindow(dpy, w, CWBorderWidth, &wc);
@@ -2016,11 +2019,6 @@ toggleborder(const Arg *arg)
 {
   if(selmon->sel != NULL)
     selmon->sel->bw = (selmon->sel->bw == borderpx ? 0 : borderpx);
-  //if(selmon->sel->bw > 0 && selmon->sel->bw < 10)
-  //    selmon->sel->bw += arg->i;
-  //int w = selmon->sel->bw;
-  //if(!(w == 0 && arg->i < 0) && !(w == 10 && arg->i > 0))
-  //  selmon->sel->bw += arg->i;
   arrange(selmon);
 }
 

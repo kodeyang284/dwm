@@ -18,12 +18,12 @@ static const char col_bgSel[]       = "#444444";
 static const unsigned int baralpha = 0x30;
 static const unsigned int baralselpha = 0x90;
 static const unsigned int borderalpha = 0xb0;
-static const char *colors[][3]      = {
+static const char *colors[][3]        = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
 	[SchemeSel]  = { col_gray4, col_bgSel, col_borderSel },
 };
-static const unsigned int alphas[][3]      = {
+static const unsigned int alphas[][3] = {
  	/*               fg      bg        border*/
  	[SchemeNorm] = { OPAQUE, baralpha, borderalpha },
 	[SchemeSel]  = { OPAQUE, baralselpha, borderalpha },
@@ -37,10 +37,12 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title            tags mask     iscentered   isfloating   monitor    float x,y,w,h         floatborderpx    scratch key*/
-	{ "Gimp",     NULL,       NULL,            0,            0,           1,           -1,        50,50,500,500,        5,               0  },
-	{ "firefox",  NULL,       "Firefox",       1 << 1,       1,           0,           -1,        -1,-1,-1,-1,         -1,               0  },
-	{ NULL,       NULL,       "scratchpad",    0,            0,           1,           -1,        50,50,800,600,       -1,              's' },           
+	/* class         instance       title           tags mask   iscentered   isfloating   monitor   borderwidth    float x,y,w,h         floatborderpx    scratch key*/
+	{ "Gimp",        NULL,          NULL,           0,          0,           1,           -1,       0,             50,50,500,500,        5,               0  },
+	{ "firefox",     NULL,          NULL,           1 << 1,     1,           0,           -1,       0,             -1,-1,-1,-1,         -1,               0  },
+	{ "Alacritty",   NULL,          NULL,           0,          1,           0,           -1,       -1,            -1,-1,-1,-1,         -1,               0  },
+	{ "scratchpad",  "scratchpad",  "scratchpad",   0,          1,           1,           -1,       -1,            -1,-1,1280,960,      -1,              's' },
+	{ "musicfox",    "musicfox",    "musicfox",     0,          0,           1,           -1,       0,             1080,200,1280,960,   -1,              'm' },
 };
 
 /* layout(s) */
@@ -66,28 +68,21 @@ static const Layout layouts[] = {
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
-#define SHCMD(cmd)  { "bash", "-c", cmd, NULL }
-#define VOLCTL(cmd) { "pactl", "set-sink-volume", "@DEFAULT_SINK@",cmd, NULL}
-#define MUTE        { "pactl", "set-sink-mute", "@DEFAULT_SINK@","toggle", NULL}
+#define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
+
 #define __TERMINAL  "alacritty", "msg", "create-window"
+#define SCRATCHAPP(o, name, cmd) {o, __TERMINAL, "--class", name, "-T", name, "-e", cmd, NULL }
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[]      = { "rofi", "-show", "drun", "-show-icons", NULL };
 static const char *runcmd[]        = { "rofi", "-show", "run", "-show-icons", NULL };
-static const char *termcmd1[]      = { "alacritty", NULL };
 static const char *termcmd[]       = { __TERMINAL, NULL };
-static const char *togglemonitor[] = { "togglemon", NULL };
-static const char *firefoxcmd[]    = { "firefox", NULL };
-static const char *musicfoxcmd[]   = { __TERMINAL, "-T", "musicfox",  "-e", "musicfox", NULL };
-static const char *upvol[]         = VOLCTL("+1000");
-static const char *downvol[]       = VOLCTL("-1000");
-static const char *mute[]          = MUTE;
-static const char *lightup[]       = { "light", "-A","5", NULL };
-static const char *lightdown[]     = { "light", "-U","5", NULL };
 
 /*First arg only serves to match against key in rules*/
-static const char *scratchpadcmd[] = {"s", __TERMINAL, "-T", "scratchpad", NULL };
+//static const char *scratchpadcmd[] = { "s", __TERMINAL, "--class", "scratchpad", "-T", "scratchpad", NULL };
+static const char *scratchpadcmd[] = SCRATCHAPP("s", "scratchpad", "tmux");
+static const char *musicfoxcmd[]   = SCRATCHAPP("m", "musicfox", "musicfox");
 
 static const char ** const startup_programs[] = { NULL };
     
@@ -96,16 +91,8 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_o,      spawn,          {.v = runcmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd1 } },
 	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
-	{ MODKEY,                       XK_w,      spawn,          {.v = firefoxcmd } },
-	{ MODKEY,                       XK_e,      spawn,          {.v = musicfoxcmd } },
-  { MODKEY|ShiftMask,             XK_m,      spawn,          {.v = togglemonitor} },
-	{ 0,          XF86XK_AudioLowerVolume,     spawn,          {.v = downvol } },
-	{ 0,          XF86XK_AudioRaiseVolume,     spawn,          {.v = upvol } },
-	{ 0,          XF86XK_AudioMute,            spawn,          {.v = mute } },
-	{ 0,          XF86XK_MonBrightnessUp,      spawn,          {.v = lightup } },
-	{ 0,          XF86XK_MonBrightnessDown,    spawn,          {.v = lightdown } },
+	{ MODKEY,                       XK_e,      togglescratch,  {.v = musicfoxcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
   { MODKEY|ShiftMask,             XK_b,      toggleborder,   {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
@@ -150,6 +137,15 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+  /* shell function key bindings */
+	{ 0,          XF86XK_AudioLowerVolume,     spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -1000") },
+	{ 0,          XF86XK_AudioRaiseVolume,     spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +1000") },
+	{ 0,          XF86XK_AudioMute,            spawn,          SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle") },
+	{ 0,          XF86XK_MonBrightnessUp,      spawn,          SHCMD("light -A 5") },
+	{ 0,          XF86XK_MonBrightnessDown,    spawn,          SHCMD("light -U 5") },
+  { MODKEY|ShiftMask,             XK_m,      spawn,          SHCMD("togglemon") },
+	{ MODKEY,                       XK_w,      spawn,          SHCMD("firefox") },
+	{ MODKEY|ShiftMask,             XK_Return, spawn,          SHCMD("alacritty") },
 };
 
 /* button definitions */
