@@ -43,7 +43,6 @@ static const Rule rules[] = {
 	{ "Alacritty",   NULL,          NULL,           0,          1,           0,           -1,       -1,            -1,-1,-1,-1,         -1,               0  },
 	{ "scratchpad",  "scratchpad",  "scratchpad",   0,          1,           1,           -1,       -1,            -1,-1,1280,960,      -1,              's' },
 	{ "musicfox",    "musicfox",    "musicfox",     0,          0,           0,           -1,       3,             -1,-1,-1,-1,         -1,              'm' },
-//	{ "Dunst",       "Dunst",       NULL,           0,          0,           1,           -1,       0,             -1,-1,-1,-1,         -1,               0  },
 };
 
 /* layout(s) */
@@ -93,6 +92,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
 	{ MODKEY,                       XK_e,      togglescratch,  {.v = musicfoxcmd } },
+	{ SUPER,                        XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
   { MODKEY|ShiftMask,             XK_b,      toggleborder,   {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
@@ -136,7 +136,8 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	{ MODKEY|ShiftMask,             XK_q,      quit,           {1} },
+	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {0} }, 
   /* shell function key bindings */
 	{ 0,          XF86XK_AudioLowerVolume,     spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -1000") },
 	{ 0,          XF86XK_AudioRaiseVolume,     spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +1000") },
