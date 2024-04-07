@@ -24,9 +24,9 @@ static const char *colors[][3]        = {
 	[SchemeSel]  = { col_gray4, col_bgSel, col_borderSel },
 };
 static const unsigned int alphas[][3] = {
- 	/*               fg      bg        border*/
- 	[SchemeNorm] = { OPAQUE, baralpha, borderalpha },
-	[SchemeSel]  = { OPAQUE, baralselpha, borderalpha },
+ 	/*               fg      bg           border*/
+  [SchemeNorm] = { OPAQUE, baralpha,    borderalpha },
+  [SchemeSel]  = { OPAQUE, baralselpha, borderalpha },
 };
 
 /* tagging */
@@ -42,15 +42,15 @@ static const Rule rules[] = {
 	{ "firefox",     NULL,          NULL,           1 << 1,     1,           0,           -1,       0,             -1,-1,-1,-1,         -1,               0  },
 	{ "Alacritty",   NULL,          NULL,           0,          1,           0,           -1,       -1,            -1,-1,-1,-1,         -1,               0  },
 	{ "scratchpad",  "scratchpad",  "scratchpad",   0,          1,           1,           -1,       -1,            -1,-1,1280,960,      -1,              's' },
-	{ "musicfox",    "musicfox",    "musicfox",     0,          0,           1,           -1,       0,             1080,200,1280,960,   -1,              'm' },
-	{ "Dunst",       "Dunst",       NULL,           0,          0,           1,           -1,       0,             -1,-1,-1,-1,         -1,               0 },
+	{ "musicfox",    "musicfox",    "musicfox",     0,          0,           0,           -1,       3,             -1,-1,-1,-1,         -1,              'm' },
+//	{ "Dunst",       "Dunst",       NULL,           0,          0,           1,           -1,       0,             -1,-1,-1,-1,         -1,               0  },
 };
 
 /* layout(s) */
 static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
-static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
+static const int lockfullscreen = 0; /* 1 will force focus on the fullscreen window */
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */

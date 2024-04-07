@@ -148,7 +148,7 @@ typedef struct {
 	int iscentered;
 	int isfloating;
 	int monitor;
-  int bw;
+	int bw;
 	int floatx, floaty, floatw, floath;
 	int floatborderpx;
 	const char scratchkey;
@@ -261,7 +261,6 @@ static void spawnprograms(void);
 static const char autostartblocksh[] = "autostart_blocking.sh";
 static const char autostartsh[] = "autostart.sh";
 static const char broken[] = "broken";
-//static const char RTFM[] = "😈READ THE FUCKING MENU!😈";//SEARCH THE FUCKING WEB!😈READ THE FUCKING SOURCE CODE!
 static const char dwmdir[] = "dwm";
 static const char localshare[] = ".local/share";
 static char stext[256];
@@ -333,7 +332,7 @@ applyrules(Client *c)
 	c->isfloating = 0;
 	c->tags = 0;
 	c->scratchkey = 0;
-  c->bw = borderpx;
+	c->bw = borderpx;
 	XGetClassHint(dpy, c->win, &ch);
 	class    = ch.res_class ? ch.res_class : broken;
 	instance = ch.res_name  ? ch.res_name  : broken;
@@ -348,8 +347,8 @@ applyrules(Client *c)
 			c->isfloating = r->isfloating;
 			c->scratchkey = r->scratchkey;
 			c->tags |= r->tags;
-      if(r->bw != -1)
-        c->bw = r->bw;
+			if(r->bw != -1)
+				c->bw = r->bw;
 			if (r->floatborderpx >= 0) {
 				c->floatborderpx = r->floatborderpx;
 				c->hasfloatbw = 1;
@@ -935,6 +934,7 @@ focusmon(const Arg *arg)
 	if ((m = dirtomon(arg->i)) == selmon)
 		return;
 	unfocus(selmon->sel, 0);
+	XWarpPointer(dpy, None, m->barwin, 0, 0, 0, 0, m->mw / 2, m->mh / 2);
 	selmon = m;
 	focus(NULL);
 }
@@ -1958,14 +1958,20 @@ spawn(const Arg *arg)
 
 void spawnscratch(const Arg *arg)
 {
+	struct sigaction sa;
+
 	if (fork() == 0) {
 		if (dpy)
 			close(ConnectionNumber(dpy));
 		setsid();
+
+		sigemptyset(&sa.sa_mask);
+		sa.sa_flags = 0;
+		sa.sa_handler = SIG_DFL;
+		sigaction(SIGCHLD, &sa, NULL);
+
 		execvp(((char **)arg->v)[1], ((char **)arg->v)+1);
-		fprintf(stderr, "dwm: execvp %s", ((char **)arg->v)[1]);
-		perror(" failed");
-		exit(EXIT_SUCCESS);
+		die("dwm: execvp '%s' failed:", ((char**)arg->v)[1]);
 	}
 }
 
@@ -2027,9 +2033,9 @@ togglebar(const Arg *arg)
 void
 toggleborder(const Arg *arg)
 {
-  if(selmon->sel != NULL)
-    selmon->sel->bw = (selmon->sel->bw == borderpx ? 0 : borderpx);
-  arrange(selmon);
+	if(selmon->sel != NULL)
+		selmon->sel->bw = (selmon->sel->bw == borderpx ? 0 : borderpx);
+	arrange(selmon);
 }
 
 void
@@ -2379,7 +2385,6 @@ updatetitle(Client *c)
 {
 	if (!gettextprop(c->win, netatom[NetWMName], c->name, sizeof c->name))
 		gettextprop(c->win, XA_WM_NAME, c->name, sizeof c->name);
-	//strcpy(c->name, RTFM);
 	if (c->name[0] == '\0') /* hack to mark broken clients */
 		strcpy(c->name, broken);
 }
@@ -2530,7 +2535,7 @@ xinitvisual(void)
 	int i;
 
 	XVisualInfo tpl = {
-    .screen = screen,
+		.screen = screen,
 		.depth = 32,
 		.class = TrueColor
 	};
@@ -2539,23 +2544,23 @@ xinitvisual(void)
 	infos = XGetVisualInfo(dpy, masks, &tpl, &nitems);
 	visual = NULL;
 	for(i = 0; i < nitems; i ++) {
-    fmt = XRenderFindVisualFormat(dpy, infos[i].visual);
+		fmt = XRenderFindVisualFormat(dpy, infos[i].visual);
 		if (fmt->type == PictTypeDirect && fmt->direct.alphaMask) {
-      visual = infos[i].visual;
+			visual = infos[i].visual;
 			depth = infos[i].depth;
 			cmap = XCreateColormap(dpy, root, visual, AllocNone);
 			useargb = 1;
 			break;
-    }
-  }
+		}
+	}
 
 	XFree(infos);
 
 	if (! visual) {
-    visual = DefaultVisual(dpy, screen);
+		visual = DefaultVisual(dpy, screen);
 		depth = DefaultDepth(dpy, screen);
 		cmap = DefaultColormap(dpy, screen);
-  }
+	}
 }
 
 void
@@ -2573,15 +2578,15 @@ zoom(const Arg *arg)
 void
 spawnprograms(void)
 {
-  /* iterate through startup_programs and spawn each program */
-  Arg prog = { .v = NULL };
-  for(int i = 0; i < sizeof(startup_programs) / sizeof(char **); i++)
-  {
-    if (startup_programs[i]) {
-      prog.v = startup_programs[i];
-      spawn(&prog);
-    }
-  }
+	/* iterate through startup_programs and spawn each program */
+	Arg prog = { .v = NULL };
+	for(int i = 0; i < sizeof(startup_programs) / sizeof(char **); i++)
+		{
+			if (startup_programs[i]) {
+				prog.v = startup_programs[i];
+			spawn(&prog);
+			}
+		}
 }
 
 int
@@ -2603,7 +2608,7 @@ main(int argc, char *argv[])
 #endif /* __OpenBSD__ */
 	scan();
 	runautostart();
-  spawnprograms();
+	spawnprograms();
 	run();
 	cleanup();
 	XCloseDisplay(dpy);

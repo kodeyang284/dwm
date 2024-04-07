@@ -25,5 +25,6 @@ build.sh
 !patches/**
 config.h
 !.gitignore
+!.editorconfig
 .cache/**
 .clangd/**
