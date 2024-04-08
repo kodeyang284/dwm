@@ -39,10 +39,11 @@ static const Rule rules[] = {
 	 */
 	/* class         instance       title           tags mask   iscentered   isfloating   monitor   borderwidth    float x,y,w,h         floatborderpx    scratch key*/
 	{ "Gimp",        NULL,          NULL,           0,          0,           1,           -1,       0,             50,50,500,500,        5,               0  },
-	{ "firefox",     NULL,          NULL,           1 << 1,     1,           0,           -1,       0,             -1,-1,-1,-1,         -1,               0  },
-	{ "Alacritty",   NULL,          NULL,           0,          1,           0,           -1,       -1,            -1,-1,-1,-1,         -1,               0  },
-	{ "scratchpad",  "scratchpad",  "scratchpad",   0,          1,           1,           -1,       -1,            -1,-1,1280,960,      -1,              's' },
-	{ "musicfox",    "musicfox",    "musicfox",     0,          0,           0,           -1,       3,             -1,-1,-1,-1,         -1,              'm' },
+	{ "firefox",     NULL,          NULL,           1 << 1,     1,           0,           -1,       -1,            -1,-1,-1,-1,          -1,              0  },
+	{ "Alacritty",   NULL,          NULL,           0,          1,           0,           -1,       -1,            -1,-1,-1,-1,          -1,              0  },
+	{ "floatterm",   NULL,          NULL,           0,          1,           1,           -1,       -1,            -1,-1,-1,-1,          -1,              0  },
+	{ "scratchpad",  "scratchpad",  "scratchpad",   0,          1,           1,           -1,       -1,            -1,-1,1280,960,       -1,             's' },
+	{ "musicfox",    "musicfox",    "musicfox",     0,          0,           1,           -1,       6,             2000,-1,500,600,      -1,             'm' },
 };
 
 /* layout(s) */
@@ -71,13 +72,18 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 #define __TERMINAL  "alacritty", "msg", "create-window"
-#define SCRATCHAPP(o, name, cmd) {o, __TERMINAL, "--class", name, "-T", name, "-e", cmd, NULL }
+#define SCRATCHAPP(o, name, cmd) {o, __TERMINAL, "--class", name, \
+                                  "-o", "font.size=6.5", "-T", name, \
+                                  "-e", cmd, NULL }
+
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[]      = { "rofi", "-show", "drun", "-show-icons", NULL };
 static const char *runcmd[]        = { "rofi", "-show", "run", "-show-icons", NULL };
 static const char *termcmd[]       = { __TERMINAL, NULL };
+static const char *termfloat[]     = { __TERMINAL, "--class", "floatterm", NULL };
+
 
 /*First arg only serves to match against key in rules*/
 static const char *scratchpadcmd[] = { "s", __TERMINAL, "--class", "scratchpad", "-T", "scratchpad", NULL };
@@ -90,6 +96,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_o,      spawn,          {.v = runcmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_x,      spawn,          {.v = termfloat } },
 	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
 	{ MODKEY,                       XK_e,      togglescratch,  {.v = musicfoxcmd } },
 	{ SUPER,                        XK_Return, zoom,           {0} },
@@ -147,6 +154,7 @@ static const Key keys[] = {
   { MODKEY|ShiftMask,             XK_m,      spawn,          SHCMD("togglemon") },
 	{ MODKEY,                       XK_w,      spawn,          SHCMD("firefox") },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          SHCMD("alacritty") },
+	{ MODKEY|ShiftMask,             XK_p,      spawn,          SHCMD("pkill -x picom") },
 };
 
 /* button definitions */
