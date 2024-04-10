@@ -37,13 +37,15 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class         instance       title           tags mask   iscentered   isfloating   monitor   borderwidth    float x,y,w,h         floatborderpx    scratch key*/
-	{ "Gimp",        NULL,          NULL,           0,          0,           1,           -1,       0,             50,50,500,500,        5,               0  },
-	{ "firefox",     NULL,          NULL,           1 << 1,     1,           0,           -1,       -1,            -1,-1,-1,-1,          -1,              0  },
-	{ "Alacritty",   NULL,          NULL,           0,          1,           0,           -1,       -1,            -1,-1,-1,-1,          -1,              0  },
-	{ "floatterm",   NULL,          NULL,           0,          1,           1,           -1,       -1,            -1,-1,-1,-1,          -1,              0  },
-	{ "scratchpad",  "scratchpad",  "scratchpad",   0,          1,           1,           -1,       -1,            -1,-1,1280,960,       -1,             's' },
-	{ "musicfox",    "musicfox",    "musicfox",     0,          0,           1,           -1,       6,             2000,-1,500,600,      -1,             'm' },
+	/* class         instance       title           tags mask   iscentered   isfloating   monitor   borderwidth   float x,y,w,h     floatborderpx  scratch key*/
+	{ "firefox",     NULL,          NULL,           1 << 1,     1,           0,           -1,       -1,           -1,-1,-1,-1,      -1,            0  },
+	{ "Alacritty",   NULL,          NULL,           0,          1,           0,           -1,       -1,           -1,-1,-1,-1,      -1,            0  },
+	{ "floatterm",   NULL,          NULL,           0,          1,           1,           -1,       -1,           -1,-1,-1,-1,      -1,            0  },
+	{ "scratchapp",  NULL,          NULL,           0,          0,           1,           -1,       6,            1800,-1,800,600,  -1,            0  },
+	{ NULL,          "qq",          NULL,           1 << 8,     1,           1,           -1,       -1,           -1,-1,-1,-1,      -1,            0  },
+	{ NULL,    "telegram-desktop",  NULL,           1 << 8,     1,           1,           -1,       -1,           -1,-1,-1,-1,      -1,            0  },
+	{ "scratchpad",  "scratchpad",  "scratchpad",   0,          1,           1,           -1,       -1,           -1,-1,-1,-1,      -1,           's' },
+	{ "builtinapp",  NULL,          "musicfox",     0,          0,           1,           -1,       6,            2000,-1,500,600,  -1,           'm' },
 };
 
 /* layout(s) */
@@ -72,7 +74,7 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 #define __TERMINAL  "alacritty", "msg", "create-window"
-#define SCRATCHAPP(o, name, cmd) {o, __TERMINAL, "--class", name, \
+#define BUILTINAPP(o, name, cmd) {o, __TERMINAL, "--class", "builtinapp", \
                                   "-o", "font.size=6.5", "-T", name, \
                                   "-e", cmd, NULL }
 
@@ -80,21 +82,19 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[]      = { "rofi", "-show", "drun", "-show-icons", NULL };
-static const char *runcmd[]        = { "rofi", "-show", "run", "-show-icons", NULL };
 static const char *termcmd[]       = { __TERMINAL, NULL };
 static const char *termfloat[]     = { __TERMINAL, "--class", "floatterm", NULL };
 
 
 /*First arg only serves to match against key in rules*/
-static const char *scratchpadcmd[] = { "s", __TERMINAL, "--class", "scratchpad", "-T", "scratchpad", NULL };
-static const char *musicfoxcmd[]   = SCRATCHAPP("m", "musicfox", "musicfox");
+static const char *scratchpadcmd[] = { "s", __TERMINAL, "--class", "scratchpad", "-T", "scratchpad", "-o", "font.size=6.5", NULL };
+static const char *musicfoxcmd[]   = BUILTINAPP("m", "musicfox", "musicfox");
 
 static const char ** const startup_programs[] = { NULL };
     
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	{ MODKEY,                       XK_o,      spawn,          {.v = runcmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_x,      spawn,          {.v = termfloat } },
 	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
@@ -107,6 +107,10 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
+	{ SUPER,                        XK_h,      shiftview,      {.i = -1 } },
+	{ SUPER,                        XK_l,      shiftview,      {.i = +1 } },
+	{ SUPER|ShiftMask,              XK_h,      shifttag,       {.i = -1 } },
+	{ SUPER|ShiftMask,              XK_l,      shifttag,       {.i = +1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
@@ -154,6 +158,7 @@ static const Key keys[] = {
   { MODKEY|ShiftMask,             XK_m,      spawn,          SHCMD("togglemon") },
 	{ MODKEY,                       XK_w,      spawn,          SHCMD("firefox") },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          SHCMD("alacritty") },
+	{ MODKEY,                       XK_o,      spawn,          SHCMD("dentry") },
 	{ MODKEY|ShiftMask,             XK_p,      spawn,          SHCMD("pkill -x picom") },
 };
 

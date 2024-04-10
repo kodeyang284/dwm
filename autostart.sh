@@ -6,5 +6,5 @@ picom &
 dunst &
 xset r rate 250 100
 #togglemon
-[[ -f $HOME/.fehbg ]] && \
-  . $HOME/.fehbg &
+[[ -f ${XDG_DATE_HOME:-$HOME/.local/share}/bg ]] &&
+  setbg ${XDG_DATE_HOME:-$HOME/.local/share}/bg &
