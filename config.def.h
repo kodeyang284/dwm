@@ -30,22 +30,22 @@ static const unsigned int alphas[][3] = {
 };
 
 /* tagging */
-static const char *tags[] = { "👾", "🦊", "📁", "🍀", "💤", "💔", "😇", "🎼", "🏏" };
+static const char *tags[] = { "💤", "🦊", "📁", "🍀", "💤", "💔", "😇", "🎼", "🏏" };
 
 static const Rule rules[] = {
 	/* xprop(1):
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class         instance       title           tags mask   iscentered   isfloating   monitor   borderwidth   float x,y,w,h     floatborderpx  scratch key*/
-	{ "firefox",     NULL,          NULL,           1 << 1,     1,           0,           -1,       -1,           -1,-1,-1,-1,      -1,            0  },
-	{ "Alacritty",   NULL,          NULL,           0,          1,           0,           -1,       -1,           -1,-1,-1,-1,      -1,            0  },
-	{ "floatterm",   NULL,          NULL,           0,          1,           1,           -1,       -1,           -1,-1,-1,-1,      -1,            0  },
-	{ "scratchapp",  NULL,          NULL,           0,          0,           1,           -1,       6,            1800,-1,800,600,  -1,            0  },
-	{ NULL,          "qq",          NULL,           1 << 8,     1,           1,           -1,       -1,           -1,-1,-1,-1,      -1,            0  },
-	{ NULL,    "telegram-desktop",  NULL,           1 << 8,     1,           1,           -1,       -1,           -1,-1,-1,-1,      -1,            0  },
-	{ "scratchpad",  "scratchpad",  "scratchpad",   0,          1,           1,           -1,       -1,           -1,-1,-1,-1,      -1,           's' },
-	{ "builtinapp",  NULL,          "musicfox",     0,          0,           1,           -1,       6,            2000,-1,500,600,  -1,           'm' },
+	/* class         instance       title           tags mask   iscentered   isfloating   monitor   borderwidth   float x,y,w,h       scratch key*/
+	{ "firefox",     NULL,          NULL,           1 << 1,     1,           0,           -1,       -1,           -1,-1,-1,-1,        0  },
+	{ "Alacritty",   NULL,          NULL,           0,          1,           0,           -1,       -1,           -1,-1,-1,-1,        0  },
+	{ "floatterm",   NULL,          NULL,           0,          1,           1,           -1,       -1,           -1,-1,-1,-1,        0  },
+	{ "scratchapp",  NULL,          NULL,           0,          0,           1,           -1,       6,            1800,-1,800,600,    0  },
+	{ NULL,          "qq",          NULL,           1 << 8,     1,           1,           -1,       -1,           -1,-1,-1,-1,        0  },
+	{ NULL,    "telegram-desktop",  NULL,           1 << 8,     1,           1,           -1,       -1,           -1,-1,-1,-1,        0  },
+	{ "scratchpad",  "scratchpad",  "scratchpad",   0,          1,           1,           -1,       -1,           -1,-1,-1,-1,       's' },
+	{ "builtinapp",  NULL,          "musicfox",     0,          0,           1,           -1,       6,            2000,-1,500,600,   'm' },
 };
 
 /* layout(s) */
@@ -107,12 +107,12 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
-	{ SUPER,                        XK_h,      shiftview,      {.i = -1 } },
-	{ SUPER,                        XK_l,      shiftview,      {.i = +1 } },
-	{ SUPER|ShiftMask,              XK_h,      shifttag,       {.i = -1 } },
-	{ SUPER|ShiftMask,              XK_l,      shifttag,       {.i = +1 } },
-	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
-	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
+	{ MODKEY,                       XK_h,      shiftview,      {.i = -1 } },
+	{ MODKEY,                       XK_l,      shiftview,      {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_h,      shifttag,       {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_l,      shifttag,       {.i = +1 } },
+	{ SUPER,                        XK_h,      setmfact,       {.f = -0.05} },
+	{ SUPER,                        XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY,                       XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },

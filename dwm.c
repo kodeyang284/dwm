@@ -95,8 +95,6 @@ struct Client {
 	int bw, oldbw;
 	unsigned int tags;
 	int isfixed, iscentered, isfloating, isurgent, neverfocus, oldstate, isfullscreen;
-	int floatborderpx;
-	int hasfloatbw;
 	char scratchkey;
 	Client *next;
 	Client *snext;
@@ -150,7 +148,6 @@ typedef struct {
 	int monitor;
 	int bw;
 	int floatx, floaty, floatw, floath;
-	int floatborderpx;
 	const char scratchkey;
 } Rule;
 
@@ -354,10 +351,6 @@ applyrules(Client *c)
 			c->tags |= r->tags;
 			if(r->bw != -1)
 				c->bw = r->bw;
-			if (r->floatborderpx >= 0) {
-				c->floatborderpx = r->floatborderpx;
-				c->hasfloatbw = 1;
-			}
 			if (r->isfloating) {
 				if (r->floatx >= 0) c->x = c->mon->mx + r->floatx;
 				if (r->floaty >= 0) c->y = c->mon->my + r->floaty;
@@ -1465,10 +1458,7 @@ resizeclient(Client *c, int x, int y, int w, int h)
 	c->oldy = c->y; c->y = wc.y = y;
 	c->oldw = c->w; c->w = wc.width = w;
 	c->oldh = c->h; c->h = wc.height = h;
-	if (c->isfloating && c->hasfloatbw && !c->isfullscreen)
-		wc.border_width = c->floatborderpx;
-	else
-		wc.border_width = c->bw;
+	wc.border_width = c->bw;
 	XConfigureWindow(dpy, c->win, CWX|CWY|CWWidth|CWHeight|CWBorderWidth, &wc);
 	configure(c);
 	XSync(dpy, False);
