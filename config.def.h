@@ -38,12 +38,12 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class         instance       title           tags mask   iscentered   isfloating   monitor   borderwidth   float x,y,w,h       scratch key*/
+	{ NULL,          NULL,          NULL,           0,          1,           0,           -1,       -1,           -1,-1,-1,-1,        0  },
 	{ "firefox",     NULL,          NULL,           1 << 1,     1,           0,           -1,       -1,           -1,-1,-1,-1,        0  },
-	{ "Alacritty",   NULL,          NULL,           0,          1,           0,           -1,       -1,           -1,-1,-1,-1,        0  },
-	{ "floatterm",   NULL,          NULL,           0,          1,           1,           -1,       -1,           -1,-1,-1,-1,        0  },
-	{ "scratchapp",  NULL,          NULL,           0,          0,           1,           -1,       6,            1800,-1,800,600,    0  },
 	{ NULL,          "qq",          NULL,           1 << 8,     1,           1,           -1,       -1,           -1,-1,-1,-1,        0  },
 	{ NULL,    "telegram-desktop",  NULL,           1 << 8,     1,           1,           -1,       -1,           -1,-1,-1,-1,        0  },
+	{ "floatterm",   NULL,          NULL,           0,          1,           1,           -1,       -1,           -1,-1,-1,-1,        0  },
+	{ "scratchapp",  NULL,          NULL,           0,          0,           1,           -1,       6,            1800,-1,800,600,    0  },
 	{ "scratchpad",  "scratchpad",  "scratchpad",   0,          1,           1,           -1,       -1,           -1,-1,-1,-1,       's' },
 	{ "builtinapp",  NULL,          "musicfox",     0,          0,           1,           -1,       6,            2000,-1,500,600,   'm' },
 };
@@ -160,6 +160,7 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          SHCMD("alacritty") },
 	{ MODKEY,                       XK_o,      spawn,          SHCMD("dentry") },
 	{ MODKEY|ShiftMask,             XK_p,      spawn,          SHCMD("pkill -x picom") },
+	{ MODKEY,              XK_bracketleft,     spawn,          SHCMD("dwmapps") },
 };
 
 /* button definitions */
