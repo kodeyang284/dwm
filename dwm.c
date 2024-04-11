@@ -836,7 +836,7 @@ drawbar(Monitor *m)
 			//drw_setscheme(drw, scheme[m == selmon ? SchemeSel : SchemeNorm]);
 			drw_setscheme(drw, scheme[m == selmon ? SchemeNorm : SchemeNorm]);
 			tlpad = MAX((m->ww - ((int)TEXTW(m->sel->name) - lrpad)) / 2 - x, lrpad / 2);
-	  	drw_text(drw, x, 0, w, bh, tlpad, m->sel->name, 0);
+			drw_text(drw, x, 0, w, bh, tlpad, m->sel->name, 0);
 			if (m->sel->isfloating)
 				drw_rect(drw, x + boxs + tlpad - lrpad / 2, boxs,
 					boxw, boxw, m->sel->isfixed, 0);
@@ -1976,8 +1976,6 @@ spawn(const Arg *arg)
 {
 	struct sigaction sa;
 
-	if (arg->v == dmenucmd)
-		dmenumon[0] = '0' + selmon->num;
 	if (fork() == 0) {
 		if (dpy)
 			close(ConnectionNumber(dpy));
@@ -1995,21 +1993,8 @@ spawn(const Arg *arg)
 
 void spawnscratch(const Arg *arg)
 {
-	struct sigaction sa;
-
-	if (fork() == 0) {
-		if (dpy)
-			close(ConnectionNumber(dpy));
-		setsid();
-
-		sigemptyset(&sa.sa_mask);
-		sa.sa_flags = 0;
-		sa.sa_handler = SIG_DFL;
-		sigaction(SIGCHLD, &sa, NULL);
-
-		execvp(((char **)arg->v)[1], ((char **)arg->v)+1);
-		die("dwm: execvp '%s' failed:", ((char**)arg->v)[1]);
-	}
+	Arg a = { .v = ((char **)arg->v) + 1};
+	spawn(&a);
 }
 
 void

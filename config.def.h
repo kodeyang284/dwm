@@ -7,8 +7,7 @@ static const unsigned int gappx     = 20;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "monospace:size=15:antialias=true:autohint=true" };
-static const char dmenufont[]       = "monospace:size=14:antialias=true:autohint=true";
+static const char *fonts[]          = { "JetBrainsMono Nerd Font:size=15:antialias=true:autohint=true" };
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#fcfbf4";
@@ -80,7 +79,6 @@ static const Layout layouts[] = {
 
 
 /* commands */
-static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[]      = { "rofi", "-show", "drun", "-show-icons", NULL };
 static const char *termcmd[]       = { __TERMINAL, NULL };
 static const char *termfloat[]     = { __TERMINAL, "--class", "floatterm", NULL };
