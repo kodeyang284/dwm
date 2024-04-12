@@ -29,7 +29,7 @@ static const unsigned int alphas[][3] = {
 };
 
 /* tagging */
-static const char *tags[] = { "💤", "🦊", "📁", "🍀", "💤", "💔", "😇", "🎼", "🏏" };
+static const char *tags[] = { "", "󰈹", "󰎪", "󰬽", "󰲨", "󰬿", "󰎶", "󰭁", "💤" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -107,8 +107,6 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      shiftview,      {.i = -1 } },
 	{ MODKEY,                       XK_l,      shiftview,      {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_h,      shifttag,       {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_l,      shifttag,       {.i = +1 } },
 	{ SUPER,                        XK_h,      setmfact,       {.f = -0.05} },
 	{ SUPER,                        XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
