@@ -41,9 +41,9 @@ static const Rule rules[] = {
 	{ "firefox",     NULL,          NULL,           1 << 1,     1,           0,           -1,       -1,           -1,-1,-1,-1,        0  },
 	{ NULL,          "qq",          NULL,           1 << 8,     1,           1,           -1,       -1,           -1,-1,-1,-1,        0  },
 	{ NULL,    "telegram-desktop",  NULL,           1 << 8,     1,           1,           -1,       -1,           -1,-1,-1,-1,        0  },
-	{ "floatterm",   NULL,          NULL,           0,          1,           1,           -1,       -1,           -1,-1,-1,-1,        0  },
+	{ NULL,          NULL,          "floatterm",    0,          1,           1,           -1,       -1,           -1,-1,-1,-1,        0  },
 	{ "scratchapp",  NULL,          NULL,           0,          0,           1,           -1,       6,            1800,-1,800,600,    0  },
-	{ "scratchpad",  "scratchpad",  "scratchpad",   0,          1,           1,           -1,       -1,           -1,-1,-1,-1,       's' },
+	{ NULL,          NULL,          "scratchpad",   0,          1,           1,           -1,       -1,           -1,-1,-1,-1,       's' },
 	{ "builtinapp",  NULL,          "musicfox",     0,          0,           1,           -1,       6,            2000,-1,500,600,   'm' },
 };
 
@@ -76,7 +76,7 @@ static const Layout layouts[] = {
 
 #define __TERMINAL  "alacritty", "msg", "create-window"
 #define ALACRITTY  "alacritty", "msg", "create-window"
-#define BUILTINAPP(o, name, cmd) {o, "alacritty", "--class", "builtinapp", \
+#define BUILTINAPP(o, name, cmd) {o, __TERMINAL, "--class", "builtinapp", \
                                   "-o", "font.size=6.5", "-T", name, \
                                   "-e", cmd, NULL }
 
@@ -84,11 +84,10 @@ static const Layout layouts[] = {
 /* commands */
 static const char *dmenucmd[]      = { "rofi", "-show", "drun", "-show-icons", NULL };
 static const char *termcmd[]       = { __TERMINAL, NULL };
-static const char *termfloat[]     = { __TERMINAL, "--class", "floatterm", NULL };
+static const char *termfloat[]     = { __TERMINAL, "-T", "floatterm", NULL };
 
-
-/*First arg only serves to match against key in rules*/
-static const char *scratchpadcmd[] = { "s", __TERMINAL, "--class", "scratchpad", "-T", "scratchpad", "-o", "font.size=6.5", NULL };
+/* scratchpad commands */
+static const char *scratchpadcmd[] = { "s", __TERMINAL, "-T", "scratchpad", "-o", "font.size=6.5", NULL };
 static const char *musicfoxcmd[]   = BUILTINAPP("m", "musicfox", "musicfox");
 
 static const char ** const startup_programs[] = { NULL };
