@@ -224,6 +224,7 @@ static void showhide(Client *c);
 static void sighup(int unused);
 static void sigterm(int unused);
 static void spawn(const Arg *arg);
+static void spawnprograms(void);
 static void spawnscratch(const Arg *arg);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
@@ -255,7 +256,6 @@ static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void xinitvisual(void);
 static void zoom(const Arg *arg);
-static void spawnprograms(void);
 
 /* variables */
 static const char autostartblocksh[] = "autostart_blocking.sh";
@@ -1178,7 +1178,8 @@ manage(Window w, XWindowAttributes *wa)
 		c->isfloating = c->oldstate = trans != None || c->isfixed;
 	if (c->isfloating)
 		XRaiseWindow(dpy, c->win);
-	attachbottom(c);
+	//attachbottom(c);
+	attach(c);
 	attachstack(c);
 	XChangeProperty(dpy, root, netatom[NetClientList], XA_WINDOW, 32, PropModeAppend,
 		(unsigned char *) &(c->win), 1);
@@ -1680,7 +1681,8 @@ sendmon(Client *c, Monitor *m)
 	detachstack(c);
 	c->mon = m;
 	c->tags = m->tagset[m->seltags]; /* assign tags of target monitor */
-	attachbottom(c);
+	//attachbottom(c);
+	attach(c);
 	attachstack(c);
 	focus(NULL);
 	arrange(NULL);
@@ -1971,6 +1973,18 @@ spawn(const Arg *arg)
 	}
 }
 
+void
+spawnprograms(void)
+{
+	/* iterate through startup_programs and spawn each program */
+	Arg prog = { .v = NULL };
+	for(int i = 0; i < sizeof(startup_programs) / sizeof(char **); i++)
+		if (startup_programs[i]) {
+			prog.v = startup_programs[i];
+			spawn(&prog);
+		}
+}
+
 void spawnscratch(const Arg *arg)
 {
 	Arg a = { .v = ((char **)arg->v) + 1};
@@ -2010,7 +2024,7 @@ tile(Monitor *m)
 	else
 		mw = m->ww - m->gappx;
 	for (i = 0, my = ty = m->gappx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
-			if (i < m->nmaster) {
+		if (i < m->nmaster) {
 			h = (m->wh - my) / (MIN(n, m->nmaster) - i) - m->gappx;
 			resize(c, m->wx + m->gappx, m->wy + my, mw - (2*c->bw) - m->gappx, h - (2*c->bw), 0);
 			if (my + HEIGHT(c) + m->gappx < m->wh)
@@ -2071,9 +2085,8 @@ togglescratch(const Arg *arg)
 			restack(selmon);
 		}
 
-	} else{
+	} else
 		spawnscratch(arg);
-	}
 }
 
 void
@@ -2287,7 +2300,8 @@ updategeom(void)
 				m->clients = c->next;
 				detachstack(c);
 				c->mon = mons;
-				attachbottom(c);
+				//attachbottom(c);
+				attach(c);
 				attachstack(c);
 			}
 			if (m == selmon)
@@ -2577,20 +2591,6 @@ zoom(const Arg *arg)
 	pop(c);
 }
 
-void
-spawnprograms(void)
-{
-	/* iterate through startup_programs and spawn each program */
-	Arg prog = { .v = NULL };
-	for(int i = 0; i < sizeof(startup_programs) / sizeof(char **); i++)
-		{
-			if (startup_programs[i]) {
-				prog.v = startup_programs[i];
-			spawn(&prog);
-			}
-		}
-}
-
 int
 main(int argc, char *argv[])
 {
@@ -2612,7 +2612,8 @@ main(int argc, char *argv[])
 	runautostart();
 	spawnprograms();
 	run();
-	if(restart) execvp(argv[0], argv);
+	if(restart)
+		execvp(argv[0], argv);
 	cleanup();
 	XCloseDisplay(dpy);
 	return EXIT_SUCCESS;

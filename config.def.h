@@ -29,7 +29,7 @@ static const unsigned int alphas[][3] = {
 };
 
 /* tagging */
-static const char *tags[] = { "", "󰈹", "󰎪", "󰬽", "󰲨", "󰬿", "󰎶", "󰭁", "💤" };
+static const char *tags[] = { "", "󰈹", "󰎪", "󰎭", "󰎱", "󰎳", "󰎶", "󰎹", "💤" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -53,11 +53,13 @@ static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
 static const int lockfullscreen = 0; /* 1 will force focus on the fullscreen window */
 
+#include "layouts.c"
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "",      tile },    /* first entry is default */
   { "󰛾",      monocle },
 	{ "",      NULL },    /* no layout function means floating behavior */
+	{ "HHH",    grid },
 };
 
 /* key definitions */
@@ -73,7 +75,8 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 #define __TERMINAL  "alacritty", "msg", "create-window"
-#define BUILTINAPP(o, name, cmd) {o, __TERMINAL, "--class", "builtinapp", \
+#define ALACRITTY  "alacritty", "msg", "create-window"
+#define BUILTINAPP(o, name, cmd) {o, "alacritty", "--class", "builtinapp", \
                                   "-o", "font.size=6.5", "-T", name, \
                                   "-e", cmd, NULL }
 
@@ -105,15 +108,16 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
-	{ MODKEY,                       XK_h,      shiftview,      {.i = -1 } },
-	{ MODKEY,                       XK_l,      shiftview,      {.i = +1 } },
-	{ SUPER,                        XK_h,      setmfact,       {.f = -0.05} },
-	{ SUPER,                        XK_l,      setmfact,       {.f = +0.05} },
+	{ SUPER,                        XK_h,      shiftview,      {.i = -1 } },
+	{ SUPER,                        XK_l,      shiftview,      {.i = +1 } },
+	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
+	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY,                       XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[3]} },
 	{ MODKEY|ShiftMask,             XK_f,      togglefullscreen, {0} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
