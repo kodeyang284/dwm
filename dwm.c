@@ -1646,16 +1646,23 @@ run(void)
 void
 runautostart(void)
 {
-	char *cmd;
+	char *xdgconfighome;
+	char *path;
 
-	if (autosc == NULL)
+	xdgconfighome = getenv("XDG_CONFIG_HOME");
+	if (xdgconfighome == NULL)
 		return;
 
-	cmd = ecalloc(1, strlen(autosc) + 3);
-	if (access(autosc, X_OK) == 0)
-		system(strcat(cmd, " &"));
+	path = ecalloc(1, strlen(xdgconfighome) + strlen(autosc) + 3);
+	if (sprintf(path, "%s/%s", xdgconfighome, autosc) <= 0) {
+		free(path);
+		return;
+	}
 
-	free(cmd);
+	if (access(path, X_OK) == 0)
+		system(strcat(path, " &"));
+
+	free(path);
 }
 
 void
@@ -1797,11 +1804,11 @@ setfullscreen(Client *c, int fullscreen)
 void
 togglefullscreen(const Arg *arg)
 {
-	/* This actrally is a fake fullscreen method
+	/* This actrally is a fake fullscreen method */
 	const Layout *lo = selmon->lt[selmon->sellt];
 
 	if(lo == NULL)
-		;
+		return;
 
 	if(lo != &layouts[1])
 		setlayout(&((Arg) { .v = &layouts[1] }));
@@ -1809,11 +1816,12 @@ togglefullscreen(const Arg *arg)
 		setlayout(&((Arg) { .v = &layouts[0] }));
 	toggleborder(NULL);
 	togglebar(arg);
-	*/
+	
 
-	/* actual fullscreen use builting setfullscreen functiojn */
+	/* actual fullscreen use builting setfullscreen functiojn
 	if(selmon->sel)
 		setfullscreen(selmon->sel, !selmon->sel->isfullscreen);
+	*/
 }
 
 void
@@ -2664,7 +2672,7 @@ main(int argc, char *argv[])
 	runautostart();
 	spawnprograms();
 	run();
-	if(restart)
+	if (restart)
 		execvp(argv[0], argv);
 	cleanup();
 	XCloseDisplay(dpy);

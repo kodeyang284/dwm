@@ -7,7 +7,8 @@ static const unsigned int gappx     = 20;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "JetBrainsMono Nerd Font:size=15:antialias=true:autohint=true" };
+static const char *fonts[]          = { "JetBrainsMono Nerd Font:size=15:antialias=true:autohint=true"
+                                        "DejaVu Sans Mono:size=15:antialias=true:autohint=true"};
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#fcfbf4";
@@ -39,6 +40,7 @@ static const Rule rules[] = {
 	/* class         instance       title           tags mask   iscentered   isfloating   monitor   borderwidth   float x,y,w,h       scratch key*/
 	{ NULL,          NULL,          NULL,           0,          1,           0,           -1,       -1,           -1,-1,-1,-1,        0  },
 	{ "firefox",     NULL,          NULL,           1 << 1,     1,           0,           -1,       0,            -1,-1,-1,-1,        0  },
+	{ "Alacritty",   NULL,          NULL,           0,          1,           0,           -1,       0,            -1,-1,-1,-1,        0  },
 	{ NULL,          "qq",          NULL,           1 << 8,     1,           1,           -1,       -1,           -1,-1,-1,-1,        0  },
 	{ NULL,    "telegram-desktop",  NULL,           1 << 8,     1,           1,           -1,       -1,           -1,-1,-1,-1,        0  },
 	{ NULL,          NULL,          "floatterm",    0,          1,           1,           -1,       -1,           -1,-1,-1,-1,        0  },
@@ -85,7 +87,7 @@ static const Layout layouts[] = {
 static const char *dmenucmd[]      = { "rofi", "-show", "drun", "-show-icons", NULL };
 static const char *termcmd[]       = { __TERMINAL, NULL };
 static const char *termfloat[]     = { __TERMINAL, "-T", "floatterm", NULL };
-static const char *autosc          = "$XDG_CONFIG_HOME/dwm/autostart.sh";
+static const char *autosc          = "dwm/autostart.sh";
 
 /* scratchpad commands */
 static const char *scratchpadcmd[] = { "s", __TERMINAL, "-T", "scratchpad", "-o", "font.size=6.5", NULL };
