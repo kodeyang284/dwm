@@ -61,7 +61,7 @@
 
 /* enums */
 enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
-enum { SchemeNorm, SchemeSel }; /* color schemes */
+enum { SchemeNorm, SchemeSel, SchemeTitle }; /* color schemes */
 enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
        NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
@@ -837,7 +837,7 @@ drawbar(Monitor *m)
 	if ((w = m->ww - tw - x) > bh) {
 		if (m->sel) {
 			//drw_setscheme(drw, scheme[m == selmon ? SchemeSel : SchemeNorm]);
-			drw_setscheme(drw, scheme[m == selmon ? SchemeNorm : SchemeNorm]);
+			drw_setscheme(drw, scheme[SchemeTitle]);
 			tlpad = MAX((m->ww - ((int)TEXTW(m->sel->name) - lrpad)) / 2 - x, lrpad / 2);
 			drw_text(drw, x, 0, w, bh, tlpad, m->sel->name, 0);
 			if (m->sel->isfloating)
@@ -2038,7 +2038,8 @@ spawnprograms(void)
 		}
 }
 
-void spawnscratch(const Arg *arg)
+void
+spawnscratch(const Arg *arg)
 {
 	Arg a = { .v = ((char **)arg->v) + 1};
 	spawn(&a);

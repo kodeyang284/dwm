@@ -7,26 +7,25 @@ static const unsigned int gappx     = 20;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "JetBrainsMono Nerd Font:size=15:antialias=true:autohint=true"
-                                        "DejaVu Sans Mono:size=15:antialias=true:autohint=true"};
+static const char *fonts[]          = {"JetBrainsMono Nerd Font:size=15:antialias=true:autohint=true"};
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#fcfbf4";
 static const char col_gray4[]       = "#eeeeee";
-static const char col_borderSel[]   = "#005577";
-static const char col_bgSel[]       = "#444444";
-static const unsigned int baralpha = 0x30;
-static const unsigned int baralselpha = 0x90;
+static const char col_border[]      = "#005548";
+static const unsigned int baralpha    = 0x30;
+static const unsigned int barselalpha = 0x90;
 static const unsigned int borderalpha = 0xb0;
 static const char *colors[][3]        = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_bgSel, col_borderSel },
+	[SchemeNorm] = { col_gray3, col_gray1, col_gray2  },
+	[SchemeSel]  = { col_gray4, col_gray2, col_border },
+	[SchemeTitle] = { col_gray3, col_gray1, col_gray2  },
 };
 static const unsigned int alphas[][3] = {
  	/*               fg      bg           border*/
   [SchemeNorm] = { OPAQUE, baralpha,    borderalpha },
-  [SchemeSel]  = { OPAQUE, baralselpha, borderalpha },
+  [SchemeSel]  = { OPAQUE, barselalpha, borderalpha },
 };
 
 /* tagging */
@@ -40,9 +39,8 @@ static const Rule rules[] = {
 	/* class         instance       title           tags mask   iscentered   isfloating   monitor   borderwidth   float x,y,w,h       scratch key*/
 	{ NULL,          NULL,          NULL,           0,          1,           0,           -1,       -1,           -1,-1,-1,-1,        0  },
 	{ "firefox",     NULL,          NULL,           1 << 1,     1,           0,           -1,       0,            -1,-1,-1,-1,        0  },
-	{ "Alacritty",   NULL,          NULL,           0,          1,           0,           -1,       0,            -1,-1,-1,-1,        0  },
-	{ NULL,          "qq",          NULL,           1 << 8,     1,           1,           -1,       -1,           -1,-1,-1,-1,        0  },
-	{ NULL,    "telegram-desktop",  NULL,           1 << 8,     1,           1,           -1,       -1,           -1,-1,-1,-1,        0  },
+	{ "Alacritty",   NULL,          NULL,           0,          1,           0,           -1,       -1,           -1,-1,-1,-1,        0  },
+	{ "Zathura",     NULL,          NULL,           0,          1,           0,           -1,       0,            -1,-1,-1,-1,        0  },
 	{ NULL,          NULL,          "floatterm",    0,          1,           1,           -1,       -1,           -1,-1,-1,-1,        0  },
 	{ "scratchapp",  NULL,          NULL,           0,          0,           1,           -1,       6,            1800,-1,800,600,    0  },
 	{ NULL,          NULL,          "scratchpad",   0,          1,           1,           -1,       -1,           -1,-1,-1,-1,       's' },
@@ -78,10 +76,9 @@ static const Layout layouts[] = {
 
 #define __TERMINAL  "alacritty", "msg", "create-window"
 #define ALACRITTY  "alacritty", "msg", "create-window"
-#define BUILTINAPP(o, name, cmd) {o, __TERMINAL, "--class", "builtinapp", \
-                                  "-o", "font.size=6.5", "-T", name, \
-                                  "-e", cmd, NULL }
-
+#define BUILTINAPP(o, name, cmd) {#o, __TERMINAL, "--class", "builtinapp", \
+                                  "-o", "font.size=6.5", "-T", #name, \
+                                  "-e", #cmd, NULL }
 
 /* commands */
 static const char *dmenucmd[]      = { "rofi", "-show", "drun", "-show-icons", NULL };
@@ -91,7 +88,7 @@ static const char *autosc          = "dwm/autostart.sh";
 
 /* scratchpad commands */
 static const char *scratchpadcmd[] = { "s", __TERMINAL, "-T", "scratchpad", "-o", "font.size=6.5", NULL };
-static const char *musicfoxcmd[]   = BUILTINAPP("m", "musicfox", "musicfox");
+static const char *musicfoxcmd[]   = BUILTINAPP(m, musicfox, musicfox);
 
 static const char ** const startup_programs[] = { NULL };
     
