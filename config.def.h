@@ -36,15 +36,15 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class         instance       title           tags mask   iscentered   isfloating   monitor   borderwidth   float x,y,w,h       scratch key*/
-	{ NULL,          NULL,          NULL,           0,          1,           0,           -1,       -1,           -1,-1,-1,-1,        0  },
-	{ "firefox",     NULL,          NULL,           1 << 1,     1,           0,           -1,       0,            -1,-1,-1,-1,        0  },
-	{ "Alacritty",   NULL,          NULL,           0,          1,           0,           -1,       -1,           -1,-1,-1,-1,        0  },
-	{ "Zathura",     NULL,          NULL,           0,          1,           0,           -1,       0,            -1,-1,-1,-1,        0  },
-	{ NULL,          NULL,          "floatterm",    0,          1,           1,           -1,       -1,           -1,-1,-1,-1,        0  },
-	{ "scratchapp",  NULL,          NULL,           0,          0,           1,           -1,       6,            1800,-1,800,600,    0  },
-	{ NULL,          NULL,          "scratchpad",   0,          1,           1,           -1,       -1,           -1,-1,-1,-1,       's' },
-	{ "builtinapp",  NULL,          "musicfox",     0,          0,           1,           -1,       6,            2000,-1,500,600,   'm' },
+	/* class         instance       title           tags mask   isfloating   monitor   borderwidth   float x,y,w,h       scratch key*/
+	{ NULL,          NULL,          NULL,           0,          0,           -1,       -1,           -1,-1,-1,-1,        0  },
+	{ "firefox",     NULL,          NULL,           1 << 1,     0,           -1,       0,            -1,-1,-1,-1,        0  },
+	{ "Alacritty",   NULL,          NULL,           0,          0,           -1,       -1,           -1,-1,-1,-1,        0  },
+	{ "Zathura",     NULL,          NULL,           0,          0,           -1,       0,            -1,-1,-1,-1,        0  },
+	{ NULL,          NULL,          "floatterm",    0,          1,           -1,       -1,           -1,-1,-1,-1,        0  },
+	{ "scratchapp",  NULL,          NULL,           0,          1,           -1,       6,            1800,-1,800,600,    0  },
+	{ NULL,          NULL,          "scratchpad",   0,          1,           -1,       -1,           -1,-1,-1,-1,       's' },
+	{ "builtinapp",  NULL,          "musicfox",     0,          1,           -1,       6,            2000,-1,500,600,   'm' },
 };
 
 /* layout(s) */
