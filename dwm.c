@@ -61,7 +61,7 @@
 
 /* enums */
 enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
-enum { SchemeNorm, SchemeSel, SchemeTitle }; /* color schemes */
+enum { SchemeNorm, SchemeSel, SchemeTitle, SchemeStatus }; /* color schemes */
 enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
        NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
@@ -806,7 +806,7 @@ drawbar(Monitor *m)
 
 	/* draw status first so it can be overdrawn by tags later */
 	if (m == selmon) { /* status is only drawn on selected monitor */
-		drw_setscheme(drw, scheme[SchemeNorm]);
+		drw_setscheme(drw, scheme[SchemeStatus]);
 		tw = TEXTW(stext) - lrpad + 2; /* 2px right padding */
 		drw_text(drw, m->ww - tw, 0, tw, bh, 0, stext, 0);
 	}
@@ -1647,7 +1647,7 @@ runautostart(void)
 	char *path;
 
 	xdgconfighome = getenv("XDG_CONFIG_HOME");
-	if (xdgconfighome == NULL)
+	if (!xdgconfighome)
 		return;
 
 	path = ecalloc(1, strlen(xdgconfighome) + strlen(autosc) + 3);
@@ -1656,7 +1656,7 @@ runautostart(void)
 		return;
 	}
 
-	if (access(path, X_OK) == 0)
+	if (!access(path, X_OK))
 		system(strcat(path, " &"));
 
 	free(path);
@@ -1795,8 +1795,8 @@ setfullscreen(Client *c, int fullscreen)
 }
 
 /*
- *just a simple fullscreen function
- *without many issue to check.
+ * just a simple fullscreen function
+ * without many issue to check.
 */
 void
 togglefullscreen(const Arg *arg)
@@ -1815,7 +1815,7 @@ togglefullscreen(const Arg *arg)
 	togglebar(arg);
 	
 
-	/* actual fullscreen use builting setfullscreen functiojn
+	/* actual fullscreen use builting setfullscreen function
 	if(selmon->sel)
 		setfullscreen(selmon->sel, !selmon->sel->isfullscreen);
 	*/
@@ -2471,9 +2471,8 @@ updatewindowtype(Client *c)
 
 	if (state == netatom[NetWMFullscreen])
 		setfullscreen(c, 1);
-	if (wtype == netatom[NetWMWindowTypeDialog]) {
+	if (wtype == netatom[NetWMWindowTypeDialog])
 		c->isfloating = 1;
-	}
 }
 
 void

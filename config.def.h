@@ -10,22 +10,24 @@ static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = {"JetBrainsMono Nerd Font:size=15:antialias=true:autohint=true"};
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
-static const char col_gray3[]       = "#fcfbf4";
+static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
-static const char col_border[]      = "#005548";
-static const unsigned int baralpha    = 0x30;
-static const unsigned int barselalpha = 0x90;
+static const char col_cyan[]        = "#005577";
+static const unsigned int baralpha    = 0x90;
 static const unsigned int borderalpha = 0xb0;
 static const char *colors[][3]        = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2  },
-	[SchemeSel]  = { col_gray4, col_gray2, col_border },
-	[SchemeTitle] = { col_gray3, col_gray1, col_gray2  },
+	[SchemeNorm]   = { col_gray3, col_gray1, col_gray2  },
+	[SchemeSel]    = { col_gray4, col_cyan,  col_gray2  },
+	[SchemeTitle]  = { col_gray4, col_gray1, col_gray2  },
+	[SchemeStatus] = { col_gray4, col_gray1, col_gray2  },
 };
 static const unsigned int alphas[][3] = {
  	/*               fg      bg           border*/
-  [SchemeNorm] = { OPAQUE, baralpha,    borderalpha },
-  [SchemeSel]  = { OPAQUE, barselalpha, borderalpha },
+  [SchemeNorm]   = { OPAQUE, baralpha, borderalpha },
+  [SchemeSel]    = { OPAQUE, baralpha, borderalpha },
+	[SchemeTitle]  = { OPAQUE, baralpha, borderalpha },
+	[SchemeStatus] = { OPAQUE, baralpha, borderalpha },
 };
 
 /* tagging */
@@ -40,7 +42,6 @@ static const Rule rules[] = {
 	{ NULL,          NULL,          NULL,           0,          0,           -1,       -1,           -1,-1,-1,-1,        0  },
 	{ "firefox",     NULL,          NULL,           1 << 1,     0,           -1,       0,            -1,-1,-1,-1,        0  },
 	{ "Alacritty",   NULL,          NULL,           0,          0,           -1,       -1,           -1,-1,-1,-1,        0  },
-	{ "Zathura",     NULL,          NULL,           0,          0,           -1,       0,            -1,-1,-1,-1,        0  },
 	{ NULL,          NULL,          "floatterm",    0,          1,           -1,       -1,           -1,-1,-1,-1,        0  },
 	{ "scratchapp",  NULL,          NULL,           0,          1,           -1,       6,            1800,-1,800,600,    0  },
 	{ NULL,          NULL,          "scratchpad",   0,          1,           -1,       -1,           -1,-1,-1,-1,       's' },
