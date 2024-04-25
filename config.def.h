@@ -3,35 +3,31 @@
 
 /* appearance */
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
-static const unsigned int gappx     = 20;        /* gaps between windows */
+static const unsigned int gappx     = 31;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = {"JetBrainsMono Nerd Font:size=15:antialias=true:autohint=true"};
-static const char col_gray1[]       = "#222222";
-static const char col_gray2[]       = "#444444";
-static const char col_gray3[]       = "#bbbbbb";
-static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#005577";
 static const unsigned int baralpha    = 0x90;
-static const unsigned int borderalpha = 0xb0;
+static const unsigned int borderalpha = 0x80;
 static const char *colors[][3]        = {
 	/*               fg         bg         border   */
-	[SchemeNorm]   = { col_gray3, col_gray1, col_gray2  },
-	[SchemeSel]    = { col_gray4, col_cyan,  col_gray2  },
-	[SchemeTitle]  = { col_gray4, col_gray1, col_gray2  },
-	[SchemeStatus] = { col_gray4, col_gray1, col_gray2  },
+	[SchemeNorm]   = { "#dcd7ba", "#1f1f28", "#444444" },
+	[SchemeSel]    = { "#c8c093", "#2d4f67", "#005577" },
+	[SchemeTitle]  = { "#c8c093", "#2d4f67", "#000000" },
+	[SchemeStatus] = { "#dcd7ba", "#1f1f28", "#000000" },
 };
 static const unsigned int alphas[][3] = {
  	/*               fg      bg           border*/
   [SchemeNorm]   = { OPAQUE, baralpha, borderalpha },
-  [SchemeSel]    = { OPAQUE, baralpha, borderalpha },
+  [SchemeSel]    = { OPAQUE, baralpha, OPAQUE      },
 	[SchemeTitle]  = { OPAQUE, baralpha, borderalpha },
 	[SchemeStatus] = { OPAQUE, baralpha, borderalpha },
 };
 
 /* tagging */
-static const char *tags[] = { "", "󰈹", "󰎪", "󰎭", "󰎱", "󰎳", "󰎶", "󰎹", "💤" };
+//static const char *tags[] = { "", "󰎧", "󰎪", "󰎭", "󰎱", "󰎳", "󰎶", "󰎹", "󰎼" };
+static const char *tags[] = { "", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 static const Rule rules[] = {
 	/* xprop(1):
