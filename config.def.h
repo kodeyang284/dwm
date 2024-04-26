@@ -2,20 +2,20 @@
 #include <X11/XF86keysym.h>
 
 /* appearance */
-static const unsigned int borderpx  = 2;        /* border pixel of windows */
-static const unsigned int gappx     = 31;        /* gaps between windows */
+static const unsigned int borderpx  = 1;        /* border pixel of windows */
+static const unsigned int gappx     = 31;       /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = {"JetBrainsMono Nerd Font:size=15:antialias=true:autohint=true"};
-static const unsigned int baralpha    = 0x90;
+static const char *fonts[]          = {"JetBrainsMono Nerd Font:style=Bold:size=15:antialias=true:autohint=true"};
+static const unsigned int baralpha    = 0x80;
 static const unsigned int borderalpha = 0x80;
 static const char *colors[][3]        = {
 	/*               fg         bg         border   */
-	[SchemeNorm]   = { "#dcd7ba", "#1f1f28", "#444444" },
-	[SchemeSel]    = { "#c8c093", "#2d4f67", "#005577" },
+	[SchemeNorm]   = { "#98bb6c", "#1f1f28", "#444444" },
+	[SchemeSel]    = { "#090618", "#98bb6c", "#2d4f67" },
 	[SchemeTitle]  = { "#c8c093", "#2d4f67", "#000000" },
-	[SchemeStatus] = { "#dcd7ba", "#1f1f28", "#000000" },
+	[SchemeStatus] = { "#98bb6c", "#1f1f28", "#000000" },
 };
 static const unsigned int alphas[][3] = {
  	/*               fg      bg           border*/
@@ -26,22 +26,21 @@ static const unsigned int alphas[][3] = {
 };
 
 /* tagging */
-//static const char *tags[] = { "", "󰎧", "󰎪", "󰎭", "󰎱", "󰎳", "󰎶", "󰎹", "󰎼" };
-static const char *tags[] = { "", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "", "󰊯", "󰛱", "", "", "" };
 
 static const Rule rules[] = {
 	/* xprop(1):
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class         instance       title           tags mask   isfloating   monitor   borderwidth   float x,y,w,h       scratch key*/
-	{ NULL,          NULL,          NULL,           0,          0,           -1,       -1,           -1,-1,-1,-1,        0  },
-	{ "firefox",     NULL,          NULL,           1 << 1,     0,           -1,       0,            -1,-1,-1,-1,        0  },
-	{ "Alacritty",   NULL,          NULL,           0,          0,           -1,       -1,           -1,-1,-1,-1,        0  },
-	{ NULL,          NULL,          "floatterm",    0,          1,           -1,       -1,           -1,-1,-1,-1,        0  },
-	{ "scratchapp",  NULL,          NULL,           0,          1,           -1,       6,            1800,-1,800,600,    0  },
-	{ NULL,          NULL,          "scratchpad",   0,          1,           -1,       -1,           -1,-1,-1,-1,       's' },
-	{ "builtinapp",  NULL,          "musicfox",     0,          1,           -1,       6,            2000,-1,500,600,   'm' },
+	/* class         instance    title           tags mask   isfloating   monitor   borderwidth   float x,y,w,h       scratch key*/
+	{ NULL,          NULL,       NULL,           0,          0,           -1,       -1,           -1,-1,-1,-1,        0  },
+	{ "firefox",     NULL,       NULL,           1 << 1,     0,           -1,       -1,           -1,-1,-1,-1,        0  },
+	{ "Alacritty",   NULL,       NULL,           0,          0,           -1,       -1,           -1,-1,-1,-1,        0  },
+	{ NULL,          NULL,       "floatterm",    0,          1,           -1,       -1,           -1,-1,-1,-1,        0  },
+	{ "scratchapp",  NULL,       NULL,           0,          1,           -1,       6,            1800,-1,800,600,    0  },
+	{ NULL,          NULL,       "scratchpad",   0,          1,           -1,       -1,           -1,-1,-1,-1,       's' },
+	{ "builtinapp",  NULL,       "musicfox",     0,          1,           -1,       6,            2000,-1,500,600,   'm' },
 };
 
 /* layout(s) */
@@ -52,11 +51,11 @@ static const int lockfullscreen = 0; /* 1 will force focus on the fullscreen win
 static const int attachbelow = 1; /* 1 means use attachbottom not attach */
 
 static const Layout layouts[] = {
-	/* symbol     arrange function */
-	{ "",      tile },    /* first entry is default */
-  { "󰛾",      monocle },
-	{ "",      NULL },    /* no layout function means floating behavior */
-	{ "HHH",    grid },
+	/* symbol   arrange function */
+	{ "[]=",      tile },    /* first entry is default */
+  { "><>",      NULL },
+	{ "[M]",      monocle },    /* no layout function means floating behavior */
+	{ "HHH",      grid },
 };
 
 /* key definitions */
