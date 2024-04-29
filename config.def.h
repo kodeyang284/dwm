@@ -3,7 +3,7 @@
 
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
-static const unsigned int gappx     = 31;       /* gaps between windows */
+static const unsigned int gappx     = 12;       /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
@@ -12,10 +12,10 @@ static const unsigned int baralpha    = 0x80;
 static const unsigned int borderalpha = 0x80;
 static const char *colors[][3]        = {
 	/*               fg         bg         border   */
-	[SchemeNorm]   = { "#98bb6c", "#1f1f28", "#444444" },
-	[SchemeSel]    = { "#090618", "#98bb6c", "#2d4f67" },
+	[SchemeNorm]   = { "#dcd7ba", "#1f1f28", "#444444" },
+	[SchemeSel]    = { "#98bb6c", "#1f1f28", "#2d4f67" },
 	[SchemeTitle]  = { "#c8c093", "#2d4f67", "#000000" },
-	[SchemeStatus] = { "#98bb6c", "#1f1f28", "#000000" },
+	[SchemeStatus] = { "#7aa89f", "#1f1f28", "#000000" },
 };
 static const unsigned int alphas[][3] = {
  	/*               fg      bg           border*/
@@ -50,12 +50,15 @@ static const int resizehints = 1;    /* 1 means respect size hints in tiled resi
 static const int lockfullscreen = 0; /* 1 will force focus on the fullscreen window */
 static const int attachbelow = 1; /* 1 means use attachbottom not attach */
 
+#include "fibonacci.c"
 static const Layout layouts[] = {
 	/* symbol   arrange function */
 	{ "[]=",      tile },    /* first entry is default */
   { "><>",      NULL },
 	{ "[M]",      monocle },    /* no layout function means floating behavior */
 	{ "HHH",      grid },
+  { "[@]",      spiral },
+ 	{ "[\\]",     dwindle },
 };
 
 /* key definitions */
@@ -116,6 +119,8 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[3]} },
+	{ MODKEY,                       XK_r,      setlayout,      {.v = &layouts[4]} },
+	{ MODKEY|ShiftMask,             XK_r,      setlayout,      {.v = &layouts[5]} },
 	{ MODKEY|ShiftMask,             XK_f,      togglefullscreen, {0} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
